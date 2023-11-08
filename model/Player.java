@@ -10,7 +10,7 @@ public class Player {
 
     private int myY;
 
-    private int myAlive;
+    private boolean myAlive;
 
 
     public Player() {
@@ -21,8 +21,9 @@ public class Player {
 
     }
 
-    public int answerQuestion() {
+    public int answerdQuestion() {
         return myAnsweredQuestions;
+
 
     }
 
@@ -40,7 +41,7 @@ public class Player {
 
     }
 
-    public int isAlive() {
+    public boolean isAlive() {
         return myAlive;
 
     }

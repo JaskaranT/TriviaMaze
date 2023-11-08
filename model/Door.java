@@ -11,10 +11,12 @@ public class Door {
     }
 
     public void unlock() {
-
+        myIsLocked = false;
     }
 
     public void lock() {
+        myIsLocked = true;
+
 
     }
 
