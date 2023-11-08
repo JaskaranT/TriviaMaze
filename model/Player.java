@@ -6,6 +6,12 @@ public class Player {
 
     private int myAnsweredQuestions;
 
+    private int myX;
+
+    private int myY;
+
+    private int myAlive;
+
 
     public Player() {
 
@@ -15,15 +21,18 @@ public class Player {
 
     }
 
-    public answerQuestion() {
+    public int answerQuestion() {
+        return myAnsweredQuestions;
 
     }
 
     public int getX() {
-
+        return myX;
     }
 
     public int getY() {
+
+        return myY;
 
     }
 
@@ -32,6 +41,7 @@ public class Player {
     }
 
     public int isAlive() {
+        return myAlive;
 
     }
 }
