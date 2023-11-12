@@ -9,7 +9,7 @@ public class Display {
   }
 
   public void displayMaze() {
-    System.out.print(myMaze.toString);
+    System.out.print(myMaze.toString());
   }
 
   public void displayRoom () {
@@ -46,10 +46,14 @@ public class Display {
   }
 
   public void displayFileMenu() {
-
+    System.out.println("Type one of the following:");
+    System.out.println("\"Save\" to save game");
+    System.out.println("\"Load\" to load game");
+    System.out.println("\"Exit\" to exit game");
   }
   public void displayHelpMenu() {
-
+    System.out.println("\"About\" for information about the game");
+    System.out.println("\"Instr\" for game Instructions");
   }
 
 }
