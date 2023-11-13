@@ -17,11 +17,10 @@ public class TriviaMaze {
         generateMaze();
     }
 
-    //Room class still needs to be finished to create a rooms with questions.
     public void generateMaze() {
         for (int x = 0; x < myRooms.length; x++) {
             for (int y = 0; y < myRooms[x].length; y++) {
-                myRooms[x][y] = new Room();
+                myRooms[x][y] = new Room(x, y);
             }
         }
     }
