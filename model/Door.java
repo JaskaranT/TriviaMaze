@@ -4,9 +4,15 @@ public class Door {
 
     private boolean myIsLocked;
 
+    private boolean myForeverLocked;
+
+    private Question myQuestion;
+
 
 
     public Door(){
+        myIsLocked = true;
+        myForeverLocked = false;
 
     }
 
@@ -14,10 +20,13 @@ public class Door {
         myIsLocked = false;
     }
 
-    public void lock() {
-        myIsLocked = true;
+    public boolean isDoorLocked() {
+        return myIsLocked;
 
+    }
 
+    public boolean isDoorForeverLocked() {
+        return myForeverLocked;
     }
 
 

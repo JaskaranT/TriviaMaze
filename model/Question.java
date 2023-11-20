@@ -1,6 +1,6 @@
 package model;
 
-public class Question_Answer {
+public class Question{
 
     private String myQuestion;
 
