@@ -2,9 +2,9 @@ package model;
 
 public class Question_Answer {
 
-    private String myQuestion;
+    private final String myQuestion;
 
-    private String myAnswer;
+    private final String myAnswer;
 
     public Question_Answer(String theQuestion, String theAnswer) {
         myQuestion = theQuestion;
