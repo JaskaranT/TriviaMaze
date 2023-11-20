@@ -2,23 +2,33 @@ package model;
 
 public class Door {
 
-    private boolean myIsLocked;
+    private boolean myDoorLock;
+    private boolean myDoorLockForever;
 
-    private Question_Answer myQuestion;
+    private final Question_Answer myQuestion;
 
 
 
     public Door() {
-        myIsLocked = true;
+        myDoorLock = true;
+        myDoorLockForever = false;
         myQuestion = DatabaseQ.getQuestion();
     }
 
-    public void unlock() {
-        myIsLocked = false;
+    public boolean isLocked () {
+        return myDoorLock;
     }
 
-    public void lock() {
-        myIsLocked = true;
+    public boolean isLockedForever() {
+        return myDoorLockForever;
+    }
+
+    public void answer(String thePlayersAnswer) {
+        if (thePlayersAnswer.equalsIgnoreCase(myQuestion.getCorrectAnswer())) {
+            myDoorLock = false;
+        } else {
+            myDoorLockForever = true;
+        }
     }
 
     public String getQuestion() {
