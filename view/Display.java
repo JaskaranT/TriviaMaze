@@ -3,7 +3,7 @@ package view;
 import model.TriviaMaze;
 
 public class Display {
-  private TriviaMaze myMaze;
+  private final TriviaMaze myMaze;
   public Display(TriviaMaze theMaze) {
     myMaze = theMaze;
   }
@@ -59,6 +59,21 @@ public class Display {
 
   public void displayIncorrect() {
     System.out.println("INCORRECT! Door is now locked forever");
+  }
+
+  public void displayDirection() {
+    System.out.println("Type a direction. North, West, South, East");
+  }
+
+  public void displayWrongIn() {
+    System.out.println("Wrong Input Try Again.");
+  }
+  public void displayWrongDirection() {
+    System.out.println("Can't go that Direction. Try again.");
+  }
+
+  public void displayVisited() {
+    System.out.println("You already visited this room welcome back");
   }
 
   public void displayFileMenu() {
