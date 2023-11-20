@@ -2,22 +2,22 @@ package model;
 
 public class Room {
 
-    private Door myDoors[];
+    private final Door[] myDoors;
 
-    private Question_Answer myQuestion;
+    private boolean myHasVisited;
 
-    private static int MY_TOTAL_SIDES = 4;
+    private static final int MY_NORTH = 0;
 
-    private static int MY_NORTH = 0;
+    private static final int MY_WEST = 1;
 
-    private static int MY_WEST = 1;
+    private static final int MY_SOUTH = 2;
 
-    private static int MY_SOUTH = 2;
-
-    private static int MY_EAST = 3;
+    private static final int MY_EAST = 3;
 
 
     public Room(int theX, int theY) {
+        myHasVisited = false;
+        int MY_TOTAL_SIDES = 4;
         myDoors = new Door [MY_TOTAL_SIDES];
         if ((theX >= 0 && theX < myDoors.length ) && theY < myDoors.length) {
             myDoors[MY_EAST] = new Door();
@@ -37,13 +37,14 @@ public class Room {
         return myDoors[theDirection];
     }
 
-    public boolean unlockDoor() {
-
+    public boolean visited() {
+        return myHasVisited;
     }
 
-    public String getQuestion() {
-
-
+    public void setVisited () {
+        myHasVisited = true;
     }
-
+    public String toString() {
+        return null;
+    }
 }
