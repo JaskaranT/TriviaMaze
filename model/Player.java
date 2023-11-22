@@ -2,9 +2,7 @@ package model;
 
 public class Player {
 
-    private Room myCurrentRoom;
 
-    private int myAnsweredQuestions;
 
     private int myX;
 
@@ -12,19 +10,21 @@ public class Player {
 
     private boolean myAlive;
 
+    private int myScore;
+
 
     public Player() {
+        myX = 0;
+        myY = 0;
+        this.myScore = 0;
+        this.myAlive = true;
 
     }
 
-    public void moveToRoom() {
-
-    }
-
-    public int answerdQuestion() {
-        return myAnsweredQuestions;
 
 
+    public int getScore() {
+        return myScore;
     }
 
     public int getX() {
@@ -37,9 +37,30 @@ public class Player {
 
     }
 
-    public void Move() {
-
+    public void setX(int theX){
+        myX = theX;
     }
+
+    public void setY(int theY){
+        myY = theY;
+    }
+
+    public void moveNorth(){
+        myX--;
+    }
+
+    public void moveSouth() {
+        myX++;
+    }
+
+    public void moveEast() {
+        myY++;
+    }
+
+    public void moveWest() {
+        myY++;
+    }
+
 
     public boolean isAlive() {
         return myAlive;

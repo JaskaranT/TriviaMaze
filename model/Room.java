@@ -2,38 +2,102 @@ package model;
 
 public class Room {
 
-    private Door myDoors[];
 
-    private Question_Answer myQuestion;
+    private Question myQuestion;
 
-    private int myX;
+    private Door myNorth;
 
-    private int myY;
+    private Door mySouth;
 
-    private String myDoorNumber;
+    private Door myEast;
 
+    private Door myWest;
 
-    public Room(final int theX, final int theY, final String theDoorNumber) {
+    private boolean myVisited;
 
-        if(theX < 0) {
-            throw new IllegalArgumentException("x cannot be negative");
-        }
-
-        if(theY < 0) {
-            throw new IllegalArgumentException("y cannot be negative");
-        }
+    private Room myCurrentRoom;
 
 
-
-
-    }
-
-    public boolean unlockDoor() {
+    public Room() {
+        myEast = new Door();
+        myNorth = new Door();
+        myWest = new Door();
+        mySouth = new Door();
+        myVisited = false;
 
     }
+    public Door getDoor(final String theDoor) {
+        Door door = null;
+        if(theDoor.equals("north")) {
+            door = myNorth;
+        }
+        else if(theDoor.equals("south")) {
+            door = mySouth;
+        }
+        else if(theDoor.equals("west")) {
+            door = myWest;
+        }
+        else if(theDoor.equals("east")) {
+            door = myEast;
+        }
+        return door;
+    }
 
-    public String Question() {
+    public void setNorth(final Door theNorth) {
+        myNorth = theNorth;
+    }
 
 
+    public void setSouth(final Door theSouth) {
+        mySouth = theSouth;
+    }
+
+
+    public void setEast(final Door theEast) {
+        myEast = theEast;
+    }
+
+
+    public void setWest(final Door theWest) {
+        myWest = theWest;
+    }
+
+
+    public boolean isVisited() {
+        return myVisited;
+    }
+
+    public void setMyVisited(boolean theValue) {
+        myVisited = theValue;
+    }
+
+
+    public String roomStatus() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("\nCurrent room:");
+        final Door [] doors = {myNorth, mySouth, myWest, myEast};
+        final String[] doorString = {"NORTH: ", "SOUTH: ", "WEST: ", "EAST: "};
+
+        for(int i =0; i<doors.length; i++) {
+            sb.append("\n");
+            sb.append(doorString[i]);
+            if(!doors[i].isDoorLocked() && doors[i].getAnswered()) {
+                sb.append("OPEN");
+            }
+            else if(doors[i].isDoorLocked() && doors[i].getAnswered()) {
+                sb.append("CLOSED");
+            }
+
+            else if(!doors[i].isDoorLocked() && !doors[i].getAnswered()) {
+                sb.append("AVAILABLE");
+            }
+        }
+
+        sb.append("\n");
+        return sb.toString();
     }
 }
+
+
+
+
