@@ -6,6 +6,8 @@ public class Room {
 
     private boolean myHasVisited;
 
+    private static int myDirection;
+
     private static final int MY_NORTH = 0;
 
     private static final int MY_WEST = 1;
@@ -14,27 +16,34 @@ public class Room {
 
     private static final int MY_EAST = 3;
 
-
-    public Room(int theX, int theY) {
+// This will Iterate through the 2d array adding doors to the proper locations
+    public Room(int theRow, int theCol) {
         myHasVisited = false;
         int MY_TOTAL_SIDES = 4;
         myDoors = new Door [MY_TOTAL_SIDES];
-        if ((theX >= 0 && theX < myDoors.length ) && theY < myDoors.length) {
+        if ((theRow >= 0 && theRow < myDoors.length) && theCol < myDoors.length - 1) {
             myDoors[MY_EAST] = new Door();
         }
-        if ((theY >= 0 && theY < myDoors.length) && theX < myDoors.length) {
+        if ((theCol >= 0 && theCol < myDoors.length) && theRow < myDoors.length - 1) {
             myDoors[MY_SOUTH] = new Door();
         }
-        if ((theY > 0 && theY < myDoors.length) && theX < myDoors.length) {
+        if ((theCol > 0 && theCol < myDoors.length) && theRow < myDoors.length) {
             myDoors[MY_WEST] = new Door();
         }
-        if ((theX > 0 && theX < myDoors.length) && theY < myDoors.length) {
+        if ((theRow > 0 && theRow < myDoors.length) && theCol < myDoors.length) {
             myDoors[MY_NORTH] = new Door();
         }
     }
 
-    public Door getDoor(int theDirection) {
-        return myDoors[theDirection];
+    public Door getDoor(String theDirection) {
+        switch (theDirection.toLowerCase()) {
+            case "north" -> myDirection = MY_NORTH;
+            case "west" -> myDirection = MY_WEST;
+            case "south" -> myDirection = MY_SOUTH;
+            case "east" -> myDirection = MY_EAST;
+        }
+
+        return myDoors[myDirection];
     }
 
     public boolean visited() {
