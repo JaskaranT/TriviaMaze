@@ -7,13 +7,13 @@ public class TriviaMaze {
 
     private final Room[][] myRooms;
 
-    private final int size = 4;
+    private static final int MY_SIZE = 4;
 
 
     public TriviaMaze() {
         myX = 0;
         myY = 0;
-        myRooms = new Room [size][size];
+        myRooms = new Room [MY_SIZE][MY_SIZE];
         generateMaze();
     }
 
@@ -26,7 +26,7 @@ public class TriviaMaze {
     }
 
     public boolean isGameWon() {
-        return myX == size - 1 && myY == size -1;
+        return myX == MY_SIZE - 1 && myY == MY_SIZE -1;
     }
 
 
@@ -46,9 +46,8 @@ public class TriviaMaze {
         return myRooms[row][col].visited();
     }
 
-    public boolean canMove(int theDirection) {
-        Door current = getRoomLocation().getDoor(theDirection);
-        return current != null && !current.isLockedForever();
+    public boolean canMove(Door theDoor) {
+        return theDoor != null && !theDoor.isLockedForever();
     }
 
     public void MovePlayer (String theDirection) {
