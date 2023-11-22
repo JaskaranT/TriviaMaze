@@ -1,6 +1,9 @@
 package view;
 
+import model.Question;
+
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,11 +15,15 @@ public class Display extends JFrame {
     private JButton submitButton;
     private JButton northButton, southButton, eastButton, westButton;
 
+
+
     public Display() {
         setTitle("Trivia Maze Game");
-        setSize(800, 600);
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         setLayout(new BorderLayout());
+
 
         // Create menu
         JMenuBar menuBar = new JMenuBar();
@@ -47,11 +54,11 @@ public class Display extends JFrame {
         questionLabel = new JLabel("Question: ");
         questionAnswerPanel.add(questionLabel);
 
-        questionAnswerPanel.add(Box.createHorizontalStrut(10)); // 10-pixel gap
+        questionAnswerPanel.add(Box.createHorizontalStrut(10));
 
         // Initialize and set maximum size for the answer field
-        answerField = new JTextField(10); // Columns set to 10 for initial width
-        answerField.setMaximumSize(new Dimension(200, 30)); // Set the maximum size
+        answerField = new JTextField(10);
+        answerField.setMaximumSize(new Dimension(200, 30));
         questionAnswerPanel.add(answerField);
 
         submitButton = new JButton("Submit Answer");
@@ -59,32 +66,76 @@ public class Display extends JFrame {
 
         add(questionAnswerPanel, BorderLayout.CENTER);
 
+        ImageIcon doorIcon = (new ImageIcon("images/door.png"));
+        northButton = createButtonWithIcon(doorIcon);
+        southButton = createButtonWithIcon(doorIcon);
+        eastButton = createButtonWithIcon(doorIcon);
+        westButton = createButtonWithIcon(doorIcon);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+
+        // Initialize buttons with resized images
 
 
+        // Add buttons with glue between them for even spacing
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(northButton);
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(eastButton);
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(southButton);
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(westButton);
+        buttonPanel.add(Box.createHorizontalGlue());
 
-        // Navigation Buttons
-        JPanel navigationPanel = new JPanel(new GridLayout(1, 4));
-        northButton = new JButton("North");
-        southButton = new JButton("South");
-        eastButton = new JButton("East");
-        westButton = new JButton("West");
-        navigationPanel.add(northButton);
-        navigationPanel.add(southButton);
-        navigationPanel.add(eastButton);
-        navigationPanel.add(westButton);
-        add(navigationPanel, BorderLayout.SOUTH);
+        // Add the button panel to the top (North) of the frame
+        add(buttonPanel, BorderLayout.NORTH);
 
-        // Setup listeners for menu items and buttons
-        setupListeners();
+
     }
 
+    private JButton createButtonWithIcon(ImageIcon icon) {
+        JButton button = new JButton(icon);
+        button.setBorderPainted(false);
+        button.setBorder(null);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
+        button.setOpaque(true);
+        button.setBackground(Color.BLACK);
+        return button;
+    }
+
+    public Icon resizeImage(String icon) {
+        ImageIcon charIcon = new ImageIcon(icon);
+        Image image = charIcon.getImage();
+        Image newing = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+        charIcon = new ImageIcon(newing);
+        Icon picture = (Icon)charIcon;
+        return picture;
+    }
+
+    public Question getQuestionText() {
+        return getQuestionText();
+    }
+
+
+
+
+
+        // setupListeners();
+
+
+    }
+
+/**
     private void setupListeners() {
 
         // Listener for exitGame menu item
         exitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0); // Exit the application
+                System.exit(0);
             }
         });
 
@@ -100,3 +151,4 @@ public class Display extends JFrame {
 
     // Additional methods to update UI based on game state
 }
+**/

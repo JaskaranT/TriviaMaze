@@ -8,11 +8,15 @@ public class Door {
 
     private Question myQuestion;
 
+    private boolean myAnswered;
+
 
 
     public Door(){
         myIsLocked = true;
         myForeverLocked = false;
+        myQuestion = new Question();
+        myAnswered = false;
 
     }
 
@@ -21,17 +25,16 @@ public class Door {
         return myIsLocked;
 
     }
+    public void setDoorLocked(boolean theLock) {
+        myIsLocked = theLock;
+    }
 
     public boolean isDoorForeverLocked() {
         return myForeverLocked;
     }
 
-    public void setDoorLocked(boolean lock) {
-        myIsLocked = lock;
-    }
-
-    public void setMyForeverLocked(boolean lock) {
-        myForeverLocked = lock;
+    public void setMyForeverLocked(boolean theLock) {
+        myForeverLocked = theLock;
     }
 
     public String getQuestion() {
@@ -42,16 +45,20 @@ public class Door {
         return myQuestion.getCorrectAnswer();
     }
 
+    public boolean getAnswered() {
+        return myAnswered;
+    }
+
     public boolean unlock(String answer) {
         if (myForeverLocked) {
-            return false; // Door cannot be unlocked as it is forever locked.
+            return false;
         }
 
         if (myQuestion.checkAnswer(answer)) {
             myIsLocked = false;
             return true;
         } else {
-            myForeverLocked = true; // Lock the door forever if the answer is incorrect.
+            myForeverLocked = true;
             return false;
         }
     }
