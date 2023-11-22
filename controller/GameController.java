@@ -17,40 +17,47 @@ public class GameController {
     TriviaMazeLoop();
 
   }
-
+//create new Maze and display. Print out Intro.
   private static void Initialization() {
     myMaze = new TriviaMaze();
     myDisplay = new Display(myMaze);
     myDisplay.StartIntro();
   }
 
+  // The Game Loop that will keep looping until the player has won or lost
   private static void TriviaMazeLoop() {
-    boolean active = true;
+    boolean active = true;              //boolean to track if game is still active/playable
     while (active) {
+      //if there is no way for the player to navigate through the maze then the player loses.
       if (!PossibleRoute()) {
         myDisplay.displayPlayerLost();
         active = false;
       }
+      // if the player reaches the end of the maze, then the player wins.
       if (myMaze.isGameWon()) {
         myDisplay.displayPlayerWon();
         active =  false;
       }
+      // loop game if it's still active/playable.
       if (active) {
         TriviaGame();
       }
     }
   }
+  //updates room, displays maze/room and asks for player's next move.
   private static void TriviaGame() {
     myMaze.getRoomLocation().setVisited();
     myDisplay.displayMaze();
-    myDisplay.displayRoom();
+    //myDisplay.displayRoom();   Still need work to display room
     PlayersNextMove();
   }
 
+  //gets player's next move. Checks if input is valid to send to next method to process movement.
   private static void PlayersNextMove(){
     myDisplay.displayDirection();
     boolean validIn = false;
     String playersMove = "";
+    // will keep asking player to input a valid response until a valid response is inputted.
     while (!validIn) {
       playersMove = myIn.nextLine();
       if (playersMove.toLowerCase().matches("north|west|south|east")) {
@@ -62,33 +69,32 @@ public class GameController {
     }
     playerMovement(playersMove);
   }
+
+  // Takes the player's input to moves player in that direction if it's possible
   private static void playerMovement (String theDirection) {
-    int direction = 101;
-    switch (theDirection.toLowerCase()) {
-      case "north" -> direction = 0;
-      case "west" -> direction = 1;
-      case "south" -> direction = 2;
-      case "east" -> direction = 3;
-    }
-    Door currentDoor = myMaze.getRoomLocation().getDoor(direction);
-    if (myMaze.canMove(direction)) {
+    Door currentDoor = myMaze.getRoomLocation().getDoor(theDirection); //door that the player wants to go through
+    //first checks if the door is not a wall and not locked forever
+    if (myMaze.canMove(currentDoor)) {
+      //checks that the door is locked and that the room hasn't been visited before
       if (currentDoor.isLocked() && !(myMaze.checkVisited(theDirection))) {
+        //displays question for user and takes the input from user to match with answer
         myDisplay.displayQuestion(currentDoor.getQuestion());
         String PlayersAnswer = myIn.nextLine();
         currentDoor.answer(PlayersAnswer);
+        // checks if the door is locked forever in the case of the player getting the question wrong
         if (currentDoor.isLockedForever()) {
           myDisplay.displayIncorrect();
           myDisplay.displayAnswer(currentDoor.getAnswer());
 
-        } else {
+        } else {   // moves player to room if the door is not locked forever
           myMaze.MovePlayer(theDirection);
           myDisplay.displayCorrect();
         }
-      } else {
+      } else { // moves player to room if the room had already been visited
         myMaze.MovePlayer(theDirection);
         myDisplay.displayVisited();
       }
-    } else {
+    } else { //indicates that user is trying to move to an invalid location. Either wall or Locked forever door
       myDisplay.displayWrongDirection();
     }
 
