@@ -18,15 +18,26 @@ public class TriviaMaze {
     }
 
     private void generateMaze() {
+
         for (int x = 0; x < myRooms.length; x++) {
             for (int y = 0; y < myRooms[x].length; y++) {
-                myRooms[x][y] = new Room(x, y);
+                Door north = new Door();
+                Door west = new Door();
+                Door east = new Door();
+                Door south = new Door();
+                if (x > 0) {
+                    north = myRooms[x - 1][y].getDoor("south");
+                }
+                if (y > 0) {
+                    west = myRooms[x][y - 1].getDoor("east");
+                }
+                myRooms[x][y] = new Room(x, y, north, west, south, east);
             }
         }
     }
 
     public boolean isGameWon() {
-        return myX == MY_SIZE - 1 && myY == MY_SIZE -1;
+        return myX == MY_SIZE - 1 && myY == MY_SIZE - 1;
     }
 
 
