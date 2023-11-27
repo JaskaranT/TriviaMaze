@@ -13,23 +13,23 @@ public class GameController {
   private static TriviaMaze myMaze;
 
   public static void main (String []theArgs) {
-    Initialization();
-    TriviaMazeLoop();
+    initialization();
+    triviaMazeLoop();
 
   }
 //create new Maze and display. Print out Intro.
-  private static void Initialization() {
+  private static void initialization() {
     myMaze = new TriviaMaze();
     myDisplay = new Display(myMaze);
     myDisplay.StartIntro();
   }
 
   // The Game Loop that will keep looping until the player has won or lost
-  private static void TriviaMazeLoop() {
+  private static void triviaMazeLoop() {
     boolean active = true;              //boolean to track if game is still active/playable
     while (active) {
       //if there is no way for the player to navigate through the maze then the player loses.
-      if (!PossibleRoute()) {
+      if (!possibleRoute()) {
         myDisplay.displayPlayerLost();
         active = false;
       }
@@ -40,20 +40,21 @@ public class GameController {
       }
       // loop game if it's still active/playable.
       if (active) {
-        TriviaGame();
+        triviaGame();
       }
     }
   }
   //updates room, displays maze/room and asks for player's next move.
-  private static void TriviaGame() {
-    myMaze.getRoomLocation().setVisited();
+  private static void triviaGame() {
+   // myMaze.getRoomLocation().setVisited();
     myDisplay.displayMaze();
-    //myDisplay.displayRoom();   Still need work to display room
-    PlayersNextMove();
+  //  myDisplay.displayRoom();   //Still need work to display room
+    playersNextMove();
   }
 
   //gets player's next move. Checks if input is valid to send to next method to process movement.
-  private static void PlayersNextMove(){
+  //Still needs work
+  private static void playersNextMove(){
     myDisplay.displayDirection();
     boolean validIn = false;
     String playersMove = "";
@@ -75,8 +76,8 @@ public class GameController {
     Door currentDoor = myMaze.getRoomLocation().getDoor(theDirection); //door that the player wants to go through
     //first checks if the door is not a wall and not locked forever
     if (myMaze.canMove(currentDoor)) {
-      //checks that the door is locked and that the room hasn't been visited before
-      if (currentDoor.isLocked() && !(myMaze.checkVisited(theDirection))) {
+      //checks that the door is locked
+      if (currentDoor.isLocked()) {
         //displays question for user and takes the input from user to match with answer
         myDisplay.displayQuestion(currentDoor.getQuestion());
         String PlayersAnswer = myIn.nextLine();
@@ -103,7 +104,7 @@ public class GameController {
 
   // Method that will traverse through the array to check if
   // there's a route that player can take to get to the end.
-  private static boolean PossibleRoute () {
+  private static boolean possibleRoute () {
     return true;
   }
 
