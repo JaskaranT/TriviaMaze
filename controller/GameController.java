@@ -29,7 +29,7 @@ public class GameController {
     boolean active = true;              //boolean to track if game is still active/playable
     while (active) {
       //if there is no way for the player to navigate through the maze then the player loses.
-      if (!possibleRoute()) {
+      if (!(myMaze.possibleRoute())) {
         myDisplay.displayPlayerLost();
         active = false;
       }
@@ -48,7 +48,7 @@ public class GameController {
   private static void triviaGame() {
    // myMaze.getRoomLocation().setVisited();
     myDisplay.displayMaze();
-  //  myDisplay.displayRoom();   //Still need work to display room
+    myDisplay.displayRoom();   //Still need work to display room
     playersNextMove();
   }
 
@@ -98,14 +98,6 @@ public class GameController {
     } else { //indicates that user is trying to move to an invalid location. Either wall or Locked forever door
       myDisplay.displayWrongDirection();
     }
-
-
-  }
-
-  // Method that will traverse through the array to check if
-  // there's a route that player can take to get to the end.
-  private static boolean possibleRoute () {
-    return true;
   }
 
 }
