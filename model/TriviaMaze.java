@@ -21,8 +21,8 @@ public class TriviaMaze {
 
         for (int x = 0; x < myRooms.length; x++) {
             for (int y = 0; y < myRooms[x].length; y++) {
-                Door north = new Door();
-                Door west = new Door();
+                Door north = null;
+                Door west = null;
                 Door east = new Door();
                 Door south = new Door();
                 if (x > 0) {
@@ -45,18 +45,6 @@ public class TriviaMaze {
         return myRooms[myX][myY];
     }
 
-    public boolean checkVisited(String theDirection) {
-        int row = myX;
-        int col = myY;
-        switch (theDirection) {
-            case "north" -> row--;
-            case "west" -> col--;
-            case "south" -> row++;
-            case "east" -> col++;
-        }
-        return myRooms[row][col].visited();
-    }
-
     public boolean canMove(Door theDoor) {
         return theDoor != null && !theDoor.isLockedForever();
     }
@@ -70,6 +58,45 @@ public class TriviaMaze {
         }
     }
 
+    public boolean possibleRoute() {
+        //clear all visited rooms
+        for (Room[] rooms : myRooms) {
+            for (Room room : rooms) {
+                room.markVisited(false);
+            }
+        }
+        return move(myX, myY);
+
+    }
+    private boolean move(int theX, int theY) {
+        boolean success = false;
+        if (validMove(theX, theY)) {
+            myRooms[theX][theY].markVisited(true);
+            if (atExit(theX, theY)) {
+                return true;
+            }
+            if (canMove(myRooms[theX][theY].getDoor("north"))) {
+                success = move(theX - 1, theY); //North
+            }
+            if (!success && canMove(myRooms[theX][theY].getDoor("west"))) {
+                    success = move(theX, theY - 1); //West
+            }
+            if (!success && canMove(myRooms[theX][theY].getDoor("south"))) {
+                success = move(theX + 1, theY); //East
+            }
+            if (!success && canMove(myRooms[theX][theY].getDoor("east"))) {
+                success = move(theX, theY + 1); //south
+            }
+        }
+        return success;
+    }
+    private boolean atExit(int theX, int theY) {
+        return theX == myRooms.length - 1 && theY == myRooms[theX].length - 1;
+    }
+
+    private boolean validMove(int theRow, int theCol) {
+        return theRow >= 0 && theRow < 4 && theCol >= 0 && theCol < 4 && !(myRooms[theRow][theCol].visited());
+    }
 
     public String toString() {
         StringBuilder triviaMaze = new StringBuilder();
@@ -90,7 +117,7 @@ public class TriviaMaze {
                 }
             }
         }
-        triviaMaze.append("\n");
+        triviaMaze.append("\n\n");
         return triviaMaze.toString();
     }
 }
