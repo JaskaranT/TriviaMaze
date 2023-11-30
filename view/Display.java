@@ -38,11 +38,11 @@ public class Display {
     System.out.println("if you lock yourself and there's no where to go then its game over.");
   }
   public void displayQuestion(String theQuestion) {
-    System.out.print(theQuestion);
+    System.out.println(theQuestion);
   }
 
   public void displayAnswer(String theAnswer) {
-    System.out.print(theAnswer);
+    System.out.println("The correct answer was " + theAnswer);
   }
 
   public void displayPlayerWon() {
@@ -62,7 +62,8 @@ public class Display {
   }
 
   public void displayDirection() {
-    System.out.println("Type a direction. North, West, South, East");
+    System.out.println("|NORTH || WEST || SOUTH|| EAST |");
+    System.out.println("Type a direction.");
   }
 
   public void displayWrongIn() {
