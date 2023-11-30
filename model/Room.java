@@ -49,32 +49,25 @@ public class Room {
         return myHasVisited;
     }
 
-    public void setVisited () {
-        myHasVisited = true;
+    public void markVisited (boolean theVisit) {
+        myHasVisited = theVisit;
     }
 
-    //Still working on it
+    //Could improve
     public String toString() {
-    /*
         StringBuilder room = new StringBuilder();
-        for (int i = 0; i < myDoors.length; i++) {
-            if (i == MY_NORTH) {
-                myDoors[MY_NORTH]
-            }
-            if (i == MY_WEST) {
-
-            }
-            if (i == MY_SOUTH) {
-
-            }
-            if (i == MY_EAST) {
-
-            }
-
+      for (Door myDoor : myDoors) {
+        if (myDoor == null) {
+          room.append("| WALL |");
+        } else if (myDoor.isLocked() && !(myDoor.isLockedForever())) {
+          room.append("|LOCKED|");
+        } else if (myDoor.isLockedForever()) {
+          room.append("|LOCKFE|");
+        } else {
+          room.append("|UNLOCK|");
         }
+      }
+        room.append("\n");
         return room.toString();
-
-     */
-        return null;
     }
 }
