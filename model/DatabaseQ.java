@@ -2,12 +2,13 @@ package model;
 
 import org.sqlite.SQLiteDataSource;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DatabaseQ {
+public class DatabaseQ implements Serializable {
 
   public static Question_Answer getQuestion() {
     SQLiteDataSource ds = null;

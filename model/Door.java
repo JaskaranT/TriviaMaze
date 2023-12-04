@@ -1,6 +1,8 @@
 package model;
 
-public class Door {
+import java.io.Serializable;
+
+public class Door implements Serializable {
 
     private boolean myDoorLock;
     private boolean myDoorLockForever;

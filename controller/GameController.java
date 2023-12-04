@@ -4,9 +4,12 @@ import model.Door;
 import model.TriviaMaze;
 import view.Display;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class GameController {
+
+  private static final File GAME = new File("TriviaGameSaveFile.txt");
 
   private static final Scanner myIn = new Scanner(System.in);
   private static Display myDisplay;
@@ -26,6 +29,9 @@ public class GameController {
 
   // The Game Loop that will keep looping until the player has won or lost
   private static void triviaMazeLoop() {
+    // ask user to select a file
+    System.out.println("new or load");
+    startupGame();
     boolean active = true;              //boolean to track if game is still active/playable
     while (active) {
       //if there is no way for the player to navigate through the maze then the player loses.
@@ -42,6 +48,62 @@ public class GameController {
       if (active) {
         triviaGame();
       }
+    }
+  }
+
+  private static void startupGame () {
+    boolean success = false;
+    String userIn;
+    while (!success) {
+      userIn = myIn.nextLine();
+      if (userIn.equalsIgnoreCase("new")) {
+        success = true;
+      } else if (userIn.equalsIgnoreCase("load")) {
+        if (loadGame()) {
+          success = true;
+        } else {
+          System.out.println("new or load");
+        }
+      }
+    }
+  }
+
+  private static boolean loadGame() {
+    //Display prompt
+    boolean success = false;
+    try {
+      FileInputStream file = new FileInputStream(GAME);
+      if (GAME.length() != 0) {
+        ObjectInputStream in = new ObjectInputStream(file);
+        myMaze = (TriviaMaze) in.readObject();
+        myDisplay = new Display(myMaze);
+        //display load successful
+        System.out.println("success");
+        success = true;
+      } else {
+        //Display load fail;
+        System.out.println("failed ");
+
+      }
+    } catch (IOException e) {
+      System.out.println("No Save file exits");
+    } catch (ClassNotFoundException e) {
+      throw new RuntimeException(e);
+    }
+    return success;
+  }
+
+  private static void saveGame() {
+    try {
+      FileOutputStream file = new FileOutputStream(GAME);
+      ObjectOutputStream out = new ObjectOutputStream(file);
+
+      out.writeObject(myMaze);
+      out.close();
+      file.close();
+      System.out.println("success");
+    } catch (IOException e) {
+      System.out.println("Can't save");
     }
   }
   //updates room, displays maze/room and asks for player's next move.
@@ -63,12 +125,19 @@ public class GameController {
       playersMove = myIn.nextLine();
       if (playersMove.toLowerCase().matches("north|west|south|east")) {
         validIn = true;
+      }else if (playersMove.toLowerCase().matches("save")) {
+        saveGame();
+        validIn = true;
+      } else if (playersMove.toLowerCase().matches("load") && loadGame()) {
+        validIn = true;
       }
       else {
         myDisplay.displayWrongIn();
       }
     }
-    playerMovement(playersMove);
+    if (!(playersMove.toLowerCase().matches("save|load"))) {
+      playerMovement(playersMove);
+    }
   }
 
   // Takes the player's input to moves player in that direction if it's possible
