@@ -1,6 +1,8 @@
 package model;
 
-public class TriviaMaze {
+import java.io.Serializable;
+
+public class TriviaMaze implements Serializable {
     private int myX;
 
     private int myY;
