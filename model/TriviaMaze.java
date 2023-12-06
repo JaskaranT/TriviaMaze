@@ -84,6 +84,104 @@ public class TriviaMaze {
     }
 
 
+    public boolean isPath() {
+        boolean result = endPossible(myUser.getX(),myUser.getY());
+
+        for(int i = 0; i < myMaze.length; i++) {
+            for(int j = 0; j < myMaze.length; j++) {
+                myMaze[i][j].setVisited(false);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Tells user if game is won.
+     *
+     * @return true if game is won, false otherwise.
+     */
+    public boolean isGameWon() {
+        return myUser.getX() == myMaze.length-1 && myUser.getY() == myMaze[0].length-1;
+    }
+}
+
+    public Room[][] getMaze() {
+        return myMaze;
+    }
+
+    /**
+     * Recursive method checks if there is a path to the end of the maze.
+     *
+     * @param theRow the row position of the user
+     * @param theColumn the column position of the user
+     * @return true if path exists, false otherwise
+     */
+    public boolean endPossible(int theRow, int theColumn) {
+        boolean result = false;
+        if (theRow == myMaze.length - 1 && theColumn == myMaze[0].length - 1) {
+            return true;
+        }
+        if (myMaze[theRow][theColumn].getVisited()) {
+            return false;
+        }
+
+        myMaze[theRow][theColumn].setVisited(true);
+
+        result = canEnterRoom("north", theRow, theColumn) && endPossible(theRow - 1, theColumn);
+        if(!result) {
+            result = canEnterRoom("south", theRow, theColumn)
+                    && endPossible(theRow + 1, theColumn);
+        }
+        if(!result) {
+            result = canEnterRoom("west", theRow, theColumn)
+                    && endPossible(theRow, theColumn - 1);
+        }
+        if(!result) {
+            result = canEnterRoom("east", theRow, theColumn)
+                    && endPossible(theRow, theColumn + 1);
+        }
+        return result;
+    }
+
+    /**
+     * Determines if a room can be entered.
+     *
+     * @param theDoor the door which the user travles through.
+     * @param theRow the x position in the maze.
+     * @param theColumn the y position in the maze.
+     * @return true if the user can enter a room and false otherwise.
+     */
+    public boolean canEnterRoom(String theDoor, int theRow, int theColumn) {
+        Room currentRoom = myMaze[theRow][theColumn];
+        return !currentRoom.getDoor(theDoor).getWall()
+                && !currentRoom.getDoor(theDoor).getDoorLocked();
+    }
+
+    /**
+     * Tells user if there is a path to the end.
+     *
+     * @return true if there is a path and false otherwise.
+     */
+    public boolean isPath() {
+        boolean result = endPossible(myUser.getX(),myUser.getY());
+
+        for(int i = 0; i < myMaze.length; i++) {
+            for(int j = 0; j < myMaze.length; j++) {
+                myMaze[i][j].setVisited(false);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Tells user if game is won.
+     *
+     * @return true if game is won, false otherwise.
+     */
+    public boolean isGameWon() {
+        return myUser.getX() == myMaze.length-1 && myUser.getY() == myMaze[0].length-1;
+    }
+}
 
 
 
