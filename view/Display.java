@@ -9,146 +9,138 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Display extends JFrame {
-    private JLabel roomInfoLabel;
-    private JLabel questionLabel;
-    private JTextField answerField;
-    private JButton submitButton;
-    private JButton northButton, southButton, eastButton, westButton;
-
-
-
-    public Display() {
-        setTitle("Trivia Maze Game");
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        setLayout(new BorderLayout());
-
-
-        // Create menu
-        JMenuBar menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-        // File menu
-        JMenu fileMenu = new JMenu("File");
-        JMenuItem saveGame = new JMenuItem("Save Game");
-        JMenuItem loadGame = new JMenuItem("Load Game");
-        JMenuItem exitGame = new JMenuItem("Exit");
-        fileMenu.add(saveGame);
-        fileMenu.add(loadGame);
-        fileMenu.add(exitGame);
-        menuBar.add(fileMenu);
-        // Help menu
-        JMenu helpMenu = new JMenu("Help");
-        JMenuItem about = new JMenuItem("About");
-        JMenuItem gameplayInstructions = new JMenuItem("Gameplay Instructions");
-        helpMenu.add(about);
-        helpMenu.add(gameplayInstructions);
-        menuBar.add(helpMenu);
-
-        roomInfoLabel = new JLabel("Current Room: ");
-        add(roomInfoLabel, BorderLayout.NORTH);
-
-        JPanel questionAnswerPanel = new JPanel();
-        questionAnswerPanel.setLayout(new BoxLayout(questionAnswerPanel, BoxLayout.LINE_AXIS));
-
-        questionLabel = new JLabel("Question: ");
-        questionAnswerPanel.add(questionLabel);
-
-        questionAnswerPanel.add(Box.createHorizontalStrut(10));
-
-        // Initialize and set maximum size for the answer field
-        answerField = new JTextField(10);
-        answerField.setMaximumSize(new Dimension(200, 30));
-        questionAnswerPanel.add(answerField);
-
-        submitButton = new JButton("Submit Answer");
-        questionAnswerPanel.add(submitButton);
-
-        add(questionAnswerPanel, BorderLayout.CENTER);
-
-        ImageIcon doorIcon = (new ImageIcon("images/door.png"));
-        northButton = createButtonWithIcon(doorIcon);
-        southButton = createButtonWithIcon(doorIcon);
-        eastButton = createButtonWithIcon(doorIcon);
-        westButton = createButtonWithIcon(doorIcon);
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-
-        // Initialize buttons with resized images
-
-
-        // Add buttons with glue between them for even spacing
-        buttonPanel.add(Box.createHorizontalGlue());
-        buttonPanel.add(northButton);
-        buttonPanel.add(Box.createHorizontalGlue());
-        buttonPanel.add(eastButton);
-        buttonPanel.add(Box.createHorizontalGlue());
-        buttonPanel.add(southButton);
-        buttonPanel.add(Box.createHorizontalGlue());
-        buttonPanel.add(westButton);
-        buttonPanel.add(Box.createHorizontalGlue());
-
-        // Add the button panel to the top (North) of the frame
-        add(buttonPanel, BorderLayout.NORTH);
-
-
+    public static void printHomePage() {
+        System.out.println("Welcome User to the TRIVIA MAZE!");
+        System.out.println("Remember during the game: ");
+        System.out.println("Press '+' for menu screen in the game.");
+        System.out.println("'O' represents the rooms you have unlocked.");
+        System.out.println("'X' represents the room that are locked.");
+        System.out.println("'*' represents the room you are in.");
+        System.out.println();
+        System.out.println("Please select an option: ");
+        System.out.println(
+                " New Game (select 1)      Load Game (select 2)      Help Screen (select 3)      Quit(select 4)");
     }
 
-    private JButton createButtonWithIcon(ImageIcon icon) {
-        JButton button = new JButton(icon);
-        button.setBorderPainted(false);
-        button.setBorder(null);
-        button.setFocusPainted(false);
-        button.setContentAreaFilled(false);
-        button.setOpaque(true);
-        button.setBackground(Color.BLACK);
-        return button;
+    /**
+     * Gets the valid user input when the user is on "Home Page." Valid inputs at
+     * home page are --> [1,2,3,4]
+     *
+     * @return String: user input
+     */
+    public static String getInputFromHomePage() {
+        String homePageInput = SC.next();
+        final Set<String> homePageChoices = new HashSet<>(Arrays.asList("1", "2", "3", "4"));
+
+        while (!homePageChoices.contains(homePageInput)) {
+            System.out.println("Invalid input, try again.");
+            homePageInput = SC.next();
+        }
+        return homePageInput;
     }
 
-    public Icon resizeImage(String icon) {
-        ImageIcon charIcon = new ImageIcon(icon);
-        Image image = charIcon.getImage();
-        Image newing = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
-        charIcon = new ImageIcon(newing);
-        Icon picture = (Icon)charIcon;
-        return picture;
+    /**
+     * Print the main menu.
+     */
+    public static void printMainMenu() {
+        System.out.println("--------- Main Menu ---------");
+        System.out.println("Save Game (select 1)");
+        System.out.println("Go to Home Page (select 2)");
+        System.out.println("Close Main Menu (select 3)");
+        System.out.println("Help (select 4)");
+        System.out.println("Quit Game (select 5)");
+        System.out.println("-----------------------------");
     }
 
-    public Question getQuestionText() {
-        return getQuestionText();
+    /**
+     * Get a valid input from the main menu. Currently the valid inputs are -->
+     * [1,2,3,4,5]
+     *
+     * @return String: user input
+     */
+    public static String getInputFromMainMenu() {
+        String mainMenuInput = SC.next();
+        // System.out.println(mainMenuInput);
+        final Set<String> mainMenuChoices = new HashSet<>(Arrays.asList("1", "2", "3", "4", "5"));
+
+        while (!mainMenuChoices.contains(mainMenuInput)) {
+            System.out.println("Invalid input, try again.");
+            mainMenuInput = SC.next();
+        }
+        return mainMenuInput;
     }
 
-
-
-
-
-        // setupListeners();
-
-
+    /**
+     * Prints the state of the maze and the current user.
+     *
+     * @param maze
+     */
+    public static void printTheCurrentMazeInfo(final Maze maze) {
+        System.out.println(maze);
+        System.out.println("You are curently in " + maze.getRowIndex() + " row and " + maze.getColIndex() + " column.");
+        System.out.println("Please select one of the given door(s):");
+        System.out.println(maze.getCurrentAvailableDoors());
     }
 
-/**
-    private void setupListeners() {
+    /**
+     * Returns a valid input from the user. A user can enter either a given
+     * direction or can choose to quit the game or choose main menu or can use one
+     * of the valid cheats.
+     *
+     * @param maze
+     * @return String: User input
+     */
+    public static char getUserDirection(final Maze maze) {
+        final Set<Character> availableChoices = new HashSet<>();
+        for (char ch : maze.getCurrentAvailableDoors()) {
+            // convert the character to string
+            availableChoices.add(ch);
+        }
+        availableChoices.add(MAIN_MENU_OPTION);
+        availableChoices.add(QUIT_OPTION);
+        availableChoices.add(CHEAT_ONE);
+        availableChoices.add(CHEAT_TWO);
 
-        // Listener for exitGame menu item
-        exitGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-
+        char directionInput = Character.toUpperCase(SC.next().charAt(0));
+        while (!availableChoices.contains(directionInput)) {
+            System.out.println("Invalid input, try again!");
+            directionInput = Character.toUpperCase(SC.next().charAt(0));
+        }
+        return directionInput;
     }
 
-    public void setRoomInfo(String info) {
-        roomInfoLabel.setText("Current Room: " + info);
+    /**
+     * Returns an Answer from the user
+     *
+     * @return String: Answer
+     */
+    public static String getUserAnswer() {
+        System.out.println("Your Answer:");
+        final String answer = SC.next();
+        return answer.toLowerCase();
     }
 
-    public void setQuestion(String question) {
-        questionLabel.setText("Question: " + question);
+    /**
+     * Return the file name entered by the user
+     *
+     * @return String: Filename
+     */
+    public static String getFileName() {
+        // System.out.print("Press Q to quit or ");
+        System.out.println("Please enter the name of the file: ");
+        final String filename = SC.next();
+        return filename;
     }
 
-    // Additional methods to update UI based on game state
-}
-**/
+    /**
+     * Prints the final verdict of the game.
+     *
+     * @param result
+     */
+    public static void printResult(final boolean result) {
+        if (result) {
+            System.out.println("You Won!!");
+        } else {
+            System.out.println("You Lost!!");
+        }
+    }
