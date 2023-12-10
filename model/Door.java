@@ -2,31 +2,34 @@ package model;
 
 public class Door {
 
-    private boolean myIsLocked;
+    private boolean myLocked;
 
     private boolean myForeverLocked;
 
-    private Question myQuestion;
-
     private boolean myAnswered;
 
+    private boolean myBlocked;
+
+    private Question myQuestion;
 
 
-    public Door(){
-        myIsLocked = true;
+    public Door() {
+        myLocked = true;
         myForeverLocked = false;
-        myQuestion = new Question();
         myAnswered = false;
+       myQuestion= new Question();
+
 
     }
 
 
     public boolean isDoorLocked() {
-        return myIsLocked;
+        return myLocked;
 
     }
+
     public void setDoorLocked(boolean theLock) {
-        myIsLocked = theLock;
+        myLocked = theLock;
     }
 
     public boolean isDoorForeverLocked() {
@@ -37,25 +40,32 @@ public class Door {
         myForeverLocked = theLock;
     }
 
-    public String getQuestion() {
-        return myQuestion.getQuestionText();
+    public Question getQuestion() {
+        return myQuestion;
     }
 
     public String getAnswer() {
-        return myQuestion.getCorrectAnswer();
+        return myQuestion.getAnswer();
+
     }
 
     public boolean getAnswered() {
         return myAnswered;
     }
 
+    public void setQuestionAnswered(final boolean theValue) {
+        myAnswered = theValue;
+    }
+
+
+
     public boolean unlock(String answer) {
         if (myForeverLocked) {
             return false;
         }
 
-        if (myQuestion.checkAnswer(answer)) {
-            myIsLocked = false;
+        if (myQuestion.getAnswer().equalsIgnoreCase(answer)) {
+            myLocked = false;
             return true;
         } else {
             myForeverLocked = true;
@@ -63,6 +73,18 @@ public class Door {
         }
     }
 
+
+    public void setWall(final boolean theWall) {
+        myBlocked = theWall;
+    }
+
+    public boolean getWall() {
+        return myBlocked;
+    }
+
+    public void unlockDead() {
+        myForeverLocked = false;
+    }
 
 
 }

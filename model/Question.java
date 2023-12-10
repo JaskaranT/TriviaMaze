@@ -6,18 +6,33 @@ public class Question{
 
     private String myAnswer;
 
+    public Question() {
 
-    public String getQuestionText() {
+        myQuestion = DatabaseQ.getQuestion().getQuestion();
+        myAnswer = DatabaseQ.getQuestion().getAnswer();
+
+
+    }
+
+
+    public String getQuestion() {
         return myQuestion;
     }
 
-    public String getCorrectAnswer() {
+    public String getAnswer() {
         return myAnswer;
 
     }
-
-    public boolean checkAnswer(String answer) {
-        return myAnswer.equalsIgnoreCase(answer.trim());
-
+    public boolean checkAnswer(String theAnswer) {
+        return myAnswer.equalsIgnoreCase(theAnswer.trim());
     }
+
+
+
+
+        public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("\n" + myQuestion + "\"");
+        return sb.toString();
+  }
 }

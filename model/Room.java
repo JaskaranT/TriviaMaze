@@ -71,23 +71,23 @@ public class Room {
         myVisited = theValue;
     }
 
-
-    public String roomStatus() {
+    public String checkSurroundings() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("\nCurrent room:");
-        final Door [] doors = {myNorth, mySouth, myWest, myEast};
-        final String[] doorString = {"NORTH: ", "SOUTH: ", "WEST: ", "EAST: "};
-
+        sb.append("Current position: ");
+        final Door doors[] = {myNorth, mySouth, myWest, myEast};
+        final String[] doorString = {"North: " , "South: ", "East: " , "West: "};
         for(int i =0; i<doors.length; i++) {
             sb.append("\n");
             sb.append(doorString[i]);
-            if(!doors[i].isDoorLocked() && doors[i].getAnswered()) {
+            if(!doors[i].isDoorLocked()&& doors[i].getAnswered()) {
                 sb.append("OPEN");
             }
             else if(doors[i].isDoorLocked() && doors[i].getAnswered()) {
                 sb.append("CLOSED");
             }
-
+            else if(doors[i]== null) {
+                sb.append("WALL");
+            }
             else if(!doors[i].isDoorLocked() && !doors[i].getAnswered()) {
                 sb.append("AVAILABLE");
             }
@@ -96,8 +96,9 @@ public class Room {
         sb.append("\n");
         return sb.toString();
     }
+
+
+
+
+
 }
-
-
-
-

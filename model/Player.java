@@ -10,22 +10,19 @@ public class Player {
 
     private boolean myAlive;
 
-    private int myScore;
+
 
 
     public Player() {
         myX = 0;
         myY = 0;
-        this.myScore = 0;
         this.myAlive = true;
 
     }
 
 
 
-    public int getScore() {
-        return myScore;
-    }
+
 
     public int getX() {
         return myX;
