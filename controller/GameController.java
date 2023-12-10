@@ -18,7 +18,19 @@ public class GameController {
   public static void main (String []theArgs) {
     initialization();
     triviaMazeLoop();
+ /*
 
+    String door = String.format("""
+                             ____
+                             |%s|
+                        ____ ---- ____
+                        |%s|      |%s|
+                        ---- ____ ----
+                             |%s| 
+                             ----
+                                """, "OP", "LK", "LF", "WL");
+    System.out.print(door);
+    */
   }
 //create new Maze and display. Print out Intro.
   private static void initialization() {
@@ -108,7 +120,6 @@ public class GameController {
   }
   //updates room, displays maze/room and asks for player's next move.
   private static void triviaGame() {
-   // myMaze.getRoomLocation().setVisited();
     myDisplay.displayMaze();
     myDisplay.displayRoom();   //Still need work to display room
     playersNextMove();
@@ -119,29 +130,68 @@ public class GameController {
   private static void playersNextMove(){
     myDisplay.displayDirection();
     boolean validIn = false;
-    String playersMove = "";
+    String playersMove;
     // will keep asking player to input a valid response until a valid response is inputted.
     while (!validIn) {
       playersMove = myIn.nextLine();
       if (playersMove.toLowerCase().matches("north|west|south|east")) {
+        playerMovement(playersMove);
         validIn = true;
-      }else if (playersMove.toLowerCase().matches("save")) {
-        saveGame();
+      }else if (playersMove.toLowerCase().matches("menu")) {
+        gameMenu();
         validIn = true;
-      } else if (playersMove.toLowerCase().matches("load") && loadGame()) {
+      } else if (playersMove.toLowerCase().matches("help")) {
+        gameHelpMenu();
         validIn = true;
       }
       else {
         myDisplay.displayWrongIn();
       }
     }
-    if (!(playersMove.toLowerCase().matches("save|load"))) {
-      playerMovement(playersMove);
+  }
+
+  private static void gameMenu () {
+    boolean validIn = false;
+    myDisplay.displayFileMenu();
+    String playersIn = myIn.nextLine();
+    while (!validIn) {
+      if (playersIn.toLowerCase().matches("save")) {
+        saveGame();
+        validIn = true;
+      } else if (playersIn.toLowerCase().matches("load")) {
+        loadGame();
+        validIn = true;
+      } else if (playersIn.toLowerCase().matches("exit")) {
+        myIn.close();
+        System.exit(0);
+      } else {
+        myDisplay.displayWrongIn();
+      }
     }
+
+  }
+
+  private static void gameHelpMenu () {
+    boolean validIn = false;
+    myDisplay.displayHelpMenu();
+    String playersIn = myIn.nextLine();
+    while (!validIn) {
+      if (playersIn.toLowerCase().matches("instr")) {
+        myDisplay.displayInstruction();
+        validIn = true;
+      } else if (playersIn.toLowerCase().matches("about")) {
+        myDisplay.GameInfo();
+        validIn = true;
+      } else {
+        myDisplay.displayWrongIn();
+      }
+
+    }
+
   }
 
   // Takes the player's input to moves player in that direction if it's possible
-  private static void playerMovement (String theDirection) {
+  private static void playerMovement (final String theDirection) {
     Door currentDoor = myMaze.getRoomLocation().getDoor(theDirection); //door that the player wants to go through
     //first checks if the door is not a wall and not locked forever
     if (myMaze.canMove(currentDoor)) {
