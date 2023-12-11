@@ -18,19 +18,6 @@ public class GameController {
   public static void main (String []theArgs) {
     initialization();
     triviaMazeLoop();
- /*
-
-    String door = String.format("""
-                             ____
-                             |%s|
-                        ____ ---- ____
-                        |%s|      |%s|
-                        ---- ____ ----
-                             |%s| 
-                             ----
-                                """, "OP", "LK", "LF", "WL");
-    System.out.print(door);
-    */
   }
 //create new Maze and display. Print out Intro.
   private static void initialization() {
@@ -135,8 +122,9 @@ public class GameController {
     while (!validIn) {
       playersMove = myIn.nextLine();
       if (playersMove.toLowerCase().matches("north|west|south|east")) {
-        playerMovement(playersMove);
-        validIn = true;
+        if (playerMovement(playersMove)){
+          validIn = true;
+        }
       }else if (playersMove.toLowerCase().matches("menu")) {
         gameMenu();
         validIn = true;
@@ -191,10 +179,12 @@ public class GameController {
   }
 
   // Takes the player's input to moves player in that direction if it's possible
-  private static void playerMovement (final String theDirection) {
+  private static boolean playerMovement (final String theDirection) {
+    boolean success = false;
     Door currentDoor = myMaze.getRoomLocation().getDoor(theDirection); //door that the player wants to go through
     //first checks if the door is not a wall and not locked forever
     if (myMaze.canMove(currentDoor)) {
+      success = true;
       //checks that the door is locked
       if (currentDoor.isLocked()) {
         //displays question for user and takes the input from user to match with answer
@@ -217,6 +207,7 @@ public class GameController {
     } else { //indicates that user is trying to move to an invalid location. Either wall or Locked forever door
       myDisplay.displayWrongDirection();
     }
+    return success;
   }
 
 }

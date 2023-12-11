@@ -55,21 +55,49 @@ public class Room implements Serializable {
         myHasVisited = theVisit;
     }
 
-    //Could improve
+    /*Could improve
     public String toString() {
         StringBuilder room = new StringBuilder();
       for (Door myDoor : myDoors) {
         if (myDoor == null) {
           room.append("| WALL |");
         } else if (myDoor.isLocked() && !(myDoor.isLockedForever())) {
-          room.append("|LOCKED|");
+          room.append("|LOCK|");
         } else if (myDoor.isLockedForever()) {
-          room.append("|LOCKFE|");
+          room.append("|OPEN|");
         } else {
           room.append("|UNLOCK|");
         }
       }
         room.append("\n");
         return room.toString();
+    }
+
+     */
+
+    public String toString(){
+      String[] door = new String[4];
+      for (int i = 0; i < myDoors.length; i++) {
+        if ((myDoors[i] == null)) {
+          door[i] = "XX";
+        } else if (myDoors[i].isLocked() && !(myDoors[i].isLockedForever())) {
+          door[i] = "LK";
+        } else if (myDoors[i].isLockedForever()) {
+          door[i] = "XX";
+        } else {
+          door[i] = "OP";
+        }
+      }
+      return String.format("""
+                            (NORTH)
+                             ____
+                             |%s|
+                        ____ ---- ____
+                (WEST)  |%s|  PL  |%s|  (EAST)
+                        ---- ____ ----
+                             |%s|
+                             ----
+                            (SOUTH)
+                                """, door[0], door[1], door[3],door[2]);
     }
 }
