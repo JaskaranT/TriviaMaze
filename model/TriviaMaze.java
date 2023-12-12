@@ -1,61 +1,109 @@
 package model;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class TriviaMaze {
 
+/**
+ * @author Jaskaran Toor
+ * @version 12/01/2023
+ *
+ * This is the trivia maze class that holds all the logic
+ * of the game.
+ */
+
+public class TriviaMaze implements Serializable {
+
+    /**
+     * Instance fields
+     */
+
+    /**
+     * Room object to initialize rooms in maze
+     */
     private Room[][] myRooms;
+
+    /**
+     * Player object to keep track of Player.
+     */
 
     private Player myPlayer;
 
-    private static final int MY_SIZE = 4;
+    /**
+     * Constant for size of the maze.
+     */
+    private static final int MY_SIZE = 5;
 
+    /**
+     * Scanner to get user input
+     */
     private final Scanner input = new Scanner(System.in);
 
+
+    /**
+     * Constructor
+     */
     public TriviaMaze() {
         myRooms = new Room[MY_SIZE][MY_SIZE];
         myPlayer = new Player();
+        buildMaze();
     }
 
+    /**
+     * This method builds the maze
+     *
+     * @param: none
+     */
     private void buildMaze() {
         // Create rooms
         for (int i = 0; i < myRooms.length; i++) {
-            for(int j = 0; j < myRooms[i].length; j++) {
+            for (int j = 0; j < myRooms[i].length; j++) {
                 myRooms[i][j] = new Room();
             }
         }
 
 
-        for(int i = 0; i < myRooms.length; i++) {
+        for (int i = 0; i < myRooms.length; i++) {
             myRooms[0][i].getDoor("north").setWall(true);
             myRooms[i][0].getDoor("west").setWall(true);
-            myRooms[myRooms.length-1][i].getDoor("south").setWall(true);
-            myRooms[i][myRooms[0].length-1].getDoor("east").setWall(true);
+            myRooms[myRooms.length - 1][i].getDoor("south").setWall(true);
+            myRooms[i][myRooms[0].length - 1].getDoor("east").setWall(true);
         }
 
-        for(int i = 0; i < myRooms.length; i++) {
-            for(int j = 0; j < myRooms.length - 1; j++) {
-                myRooms[j+1][i].setNorth(myRooms[j][i].getDoor("south"));
-                myRooms[i][j].setEast(myRooms[i][j+1].getDoor("west"));
+        for (int i = 0; i < myRooms.length; i++) {
+            for (int j = 0; j < myRooms.length - 1; j++) {
+                myRooms[j + 1][i].setNorth(myRooms[j][i].getDoor("south"));
+                myRooms[i][j].setEast(myRooms[i][j + 1].getDoor("west"));
             }
         }
     }
 
+    /**
+     * This method moves the player based on the input from
+     * the user.
+     *
+     * @param theDirection
+     */
     public void movePlayer(final String theDirection) {
-        if(theDirection.toLowerCase().equals("north")) {
+        if (theDirection.toLowerCase().equals("north")) {
             myPlayer.moveNorth();
-        }
-        else if(theDirection.toLowerCase().equals("south")) {
+        } else if (theDirection.toLowerCase().equals("south")) {
             myPlayer.moveSouth();
-        }
-        else if(theDirection.toLowerCase().equals("west")) {
+        } else if (theDirection.toLowerCase().equals("west")) {
             myPlayer.moveWest();
-        }
-        else if(theDirection.toLowerCase().equals("east")) {
+        } else if (theDirection.toLowerCase().equals("east")) {
             myPlayer.moveEast();
         }
     }
+
+
+    /**
+     * This method checks all cases for the players move.
+     *
+     * @param theDirection
+     * @return
+     */
     public boolean move(final String theDirection) {
         boolean movable = false;
         final Room currentRoom = getCurrentRoom();
@@ -68,7 +116,7 @@ public class TriviaMaze {
         }
 
         // When the door is not locked or the question has not been answered
-        if (!currentDoor.isDoorLocked()|| !currentDoor.getAnswered()) {
+        if (!currentDoor.isDoorLocked() || !currentDoor.getAnswered()) {
             System.out.println(currentDoor.getQuestion());
             final String answer = input.nextLine();
             final boolean result = currentDoor.getQuestion().checkAnswer(answer);
@@ -101,7 +149,7 @@ public class TriviaMaze {
 
 
     public int[] getLocation() {
-        int [] arr = {myPlayer.getX(), myPlayer.getY()};
+        int[] arr = {myPlayer.getX(), myPlayer.getY()};
         return arr;
     }
 
@@ -113,6 +161,15 @@ public class TriviaMaze {
     public Room getCurrentRoom() {
         return myRooms[myPlayer.getX()][myPlayer.getY()];
     }
+
+    /**
+     * This method checks if there is a path to the end from
+     * the players current location on the maze.
+     *
+     * @param theRow
+     * @param theColumn
+     * @return boolean
+     */
     public boolean endPossible(int theRow, int theColumn) {
         boolean result = false;
         if (theRow == myRooms.length - 1 && theColumn == myRooms[0].length - 1) {
@@ -125,15 +182,15 @@ public class TriviaMaze {
         myRooms[theRow][theColumn].setMyVisited(true);
 
         result = canEnterRoom("north", theRow, theColumn) && endPossible(theRow - 1, theColumn);
-        if(!result) {
+        if (!result) {
             result = canEnterRoom("south", theRow, theColumn)
                     && endPossible(theRow + 1, theColumn);
         }
-        if(!result) {
+        if (!result) {
             result = canEnterRoom("west", theRow, theColumn)
                     && endPossible(theRow, theColumn - 1);
         }
-        if(!result) {
+        if (!result) {
             result = canEnterRoom("east", theRow, theColumn)
                     && endPossible(theRow, theColumn + 1);
         }
@@ -141,6 +198,14 @@ public class TriviaMaze {
     }
 
 
+    /**
+     * this method checks if a room can be entered
+     *
+     * @param theDoor
+     * @param theRow
+     * @param theColumn
+     * @return
+     */
     public boolean canEnterRoom(String theDoor, int theRow, int theColumn) {
         Room currentRoom = myRooms[theRow][theColumn];
         return !currentRoom.getDoor(theDoor).getWall()
@@ -149,20 +214,40 @@ public class TriviaMaze {
 
 
     public boolean isPath() {
-        boolean result = endPossible(myPlayer.getX(),myPlayer.getY());
+        boolean result = endPossible(myPlayer.getX(), myPlayer.getY());
 
-        for(int i = 0; i < myRooms.length; i++) {
-            for(int j = 0; j < myRooms.length; j++) {
+        for (int i = 0; i < myRooms.length; i++) {
+            for (int j = 0; j < myRooms.length; j++) {
                 myRooms[i][j].setMyVisited(false);
             }
         }
         return result;
     }
 
+    /**
+     * This method checks if game is won by checking if player
+     * is at the end of the maze.
+     *
+     * @return
+     */
     public boolean isGameWon() {
         return myPlayer.getX() == MY_SIZE - 1 && myPlayer.getY() == MY_SIZE - 1;
     }
 
+
+    /**
+     * This method moves the player to the
+     * end of the maze.
+     */
+    public void teleportCheat() {
+        myPlayer.setX(MY_SIZE - 1);
+        myPlayer.setY(MY_SIZE - 1);
+    }
+    /**
+     * This is the toString method to display the maze.
+     *
+     * @return
+     */
     public String toString() {
         StringBuilder mazeString = new StringBuilder();
         for (int i = 0; i < myRooms.length; i++) {
@@ -183,15 +268,6 @@ public class TriviaMaze {
         }
         return mazeString.toString();
     }
-/**
-    public void undeadAllRooms() {
-        for (Room[] rooms : myRooms) {
-            for (Room room : rooms) {
-                room.undeadRoom();
-            }
-        }
-    }**/
-
 }
 
 
