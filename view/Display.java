@@ -20,10 +20,12 @@ public class Display {
 
    private static TriviaMaze myMaze;
 
+    /**
+     * Sound files are constant
+     */
     private static final File WRONG_ANSWER_SOUND = new File("wrong-answer-sound-effect.wav");
 
     private static final File CORRECT_ANSWER_SOUND = new File("Correct.wav");
-
 
     private static final File GAME_LOST_SOUND = new File("gamelostsound.wav");
 
@@ -152,6 +154,11 @@ public class Display {
                 "─────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
         PlaySound.playSound(GAME_LOST_SOUND);
 
+    }
+
+    public static void displayCheat() {
+       System.out.println("Cheats: " +
+               "\nMove to end(Type Cheat)");
     }
 
 
