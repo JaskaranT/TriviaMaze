@@ -18,28 +18,37 @@ import javax.sound.sampled.Clip;
 public class Display {
 
 
-   private final TriviaMaze myMaze;
-    public Display(TriviaMaze theMaze) {
-        myMaze = theMaze;
-    }
+   private static TriviaMaze myMaze;
 
-    public void displayMaze() {
+    private static final File WRONG_ANSWER_SOUND = new File("wrong-answer-sound-effect.wav");
+
+    private static final File CORRECT_ANSWER_SOUND = new File("Correct.wav");
+
+
+    private static final File GAME_LOST_SOUND = new File("gamelostsound.wav");
+
+    private static final File GAME_WON_SOUND = new File("gamewon.wav");
+
+   public static void main(String [] args) {
+       displayMoveControls();
+   }
+
+    public static void displayMaze() {
         System.out.print(myMaze.toString());
     }
 
-
-
-
-
-
-    public static void GameInfo () {
-        System.out.println("In this game you will Travel through rooms answering questions where you main goal");
-        System.out.println("will be to reach the exit");
-        System.out.println("Everytime you get a correct answer, that room will remain unlock but be careful because");
-        System.out.println( "one wrong answer will lock that room forever.");
+    public static void printPrompt() {
+       System.out.println("Choose: ");
     }
 
-    public static void displayInstruction() {
+    public static void printLaunchMenu() {
+       System.out.println("\n\n\n\n𝟏 - 𝐏𝐥𝐚𝐲 𝐍𝐞𝐰 𝐆𝐚𝐦𝐞                   "    +"𝟐 - 𝐋𝐨𝐚𝐝 𝐆𝐚𝐦𝐞                  " + "𝟑 - 𝐇𝐞𝐥𝐩"
+             );
+
+    }
+
+
+    public static void displayIntro() {
         System.out.println("🆆🅴🅻🅲🅾🅼🅴 🆃🅾 🆃🅷🅴 🆃🆁🅸🆅🅸🅰 🅼🅰🆉🅴❗");
         System.out.println("𝗜𝗻𝘀𝘁𝗿𝘂𝗰𝘁𝗶𝗼𝗻𝘀:");
         System.out.println("In this game you will be placed in the start location.");
@@ -62,7 +71,19 @@ public class Display {
                 "╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝╚═╝░░╚══╝  ╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝░╚═════╝░");
         System.out.println(
 
-                " File  (Press 1)                 Help  (Press 2)" );
+                " Quit  (Press 1)                 File (Press 2)" );
+    }
+
+    public static void printHelp() {
+
+    }
+
+    public static void displayMoveControls() {
+       System.out.println( "█▀▀ █▀▀█ █▀▀▄ ▀▀█▀▀ █▀▀█ █▀▀█ █── █▀▀ \n" +
+                           "█── █──█ █──█ ──█── █▄▄▀ █──█ █── ▀▀█ \n" +
+                           "▀▀▀ ▀▀▀▀ ▀──▀ ──▀── ▀─▀▀ ▀▀▀▀ ▀▀▀ ▀▀▀\n");
+       System.out.println("Type which direction you would like to move:\n ");
+        System.out.println( "𝖭𝖮𝖱𝖳𝖧\n𝖶𝖤𝖲𝖳\n𝖲𝖮𝖴𝖳𝖧\n𝖤𝖠𝖲𝖳" );
     }
 
     public static void printTitle() {
@@ -84,6 +105,20 @@ public class Display {
                 "──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
     }
 
+    public static void printWrongAnswer() {
+       System.out.println("Incorrect!");
+       PlaySound.playSound(WRONG_ANSWER_SOUND);
+    }
+
+    public static void printCorrectAnswer() {
+       System.out.println("Correct!");
+       PlaySound.playSound(CORRECT_ANSWER_SOUND);
+    }
+
+    public static void userActionWarning() {
+       System.out.println("Incorrect input!, Try Again : ");
+    }
+
     public static void printGameWon() {
         System.out.println("\n" +
 
@@ -93,6 +128,7 @@ public class Display {
                 "░░╚██╔╝░░██║░░██║██║░░░██║  ░░████╔═████║░██║░░██║██║╚████║\n"+
                 "░░░██║░░░╚█████╔╝╚██████╔╝  ░░╚██╔╝░╚██╔╝░╚█████╔╝██║░╚███║\n"+
                 "░░░╚═╝░░░░╚════╝░░╚═════╝░  ░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚══╝");
+        PlaySound.playSound(GAME_WON_SOUND);
 
     }
 
@@ -114,6 +150,7 @@ public class Display {
                 "───────██░░██───────██░░░░░░░░░░██─██░░░░░░░░░░██────██░░░░░░░░░░██─██░░░░░░░░░░██─██░░░░░░░░░░██─────██░░██─────\n"+
                 "───────██████───────██████████████─██████████████────██████████████─██████████████─██████████████─────██████─────\n"+
                 "─────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
+        PlaySound.playSound(GAME_LOST_SOUND);
 
     }
 
