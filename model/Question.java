@@ -1,16 +1,20 @@
 package model;
 
-public class Question{
+import java.io.Serializable;
+
+public class Question implements Serializable {
 
     private String myQuestion;
 
     private String myAnswer;
 
+
+
+
+
     public Question() {
-
-        myQuestion = DatabaseQ.getQuestion().getQuestion();
-        myAnswer = DatabaseQ.getQuestion().getAnswer();
-
+        myQuestion = DatabaseQ.getQuestion();
+        myAnswer = DatabaseQ.getAnswer();
 
     }
 
