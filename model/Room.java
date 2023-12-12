@@ -19,7 +19,8 @@ public class Room implements Serializable {
     private static final int MY_EAST = 3;
 
 // This will Iterate through the 2d array adding doors to the proper locations
-    public Room(int theRow, int theCol, Door theNorth, Door theWest, Door theSouth, Door theEast) {
+    public Room(final int theRow, final int theCol, final Door theNorth, final Door theWest,
+                final Door theSouth, final Door theEast) {
         myHasVisited = false;
         int MY_TOTAL_SIDES = 4;
         myDoors = new Door [MY_TOTAL_SIDES];
@@ -37,7 +38,7 @@ public class Room implements Serializable {
         }
     }
 
-    public Door getDoor(String theDirection) {
+    public Door getDoor(final String theDirection) {
         switch (theDirection.toLowerCase()) {
             case "north" -> myDirection = MY_NORTH;
             case "west" -> myDirection = MY_WEST;
@@ -51,7 +52,7 @@ public class Room implements Serializable {
         return myHasVisited;
     }
 
-    public void markVisited (boolean theVisit) {
+    public void markVisited (final boolean theVisit) {
         myHasVisited = theVisit;
     }
 
@@ -69,6 +70,8 @@ public class Room implements Serializable {
         }
       }
       return String.format("""
+                             ROOM
+                ______________________________
                             (NORTH)
                              ____
                              |%s|
@@ -78,6 +81,7 @@ public class Room implements Serializable {
                              |%s|
                              ----
                             (SOUTH)
-                                """, door[0], door[1], door[3],door[2]);
+                ------------------------------
+                """, door[0], door[1], door[3],door[2]);
     }
 }
