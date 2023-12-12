@@ -55,26 +55,6 @@ public class Room implements Serializable {
         myHasVisited = theVisit;
     }
 
-    /*Could improve
-    public String toString() {
-        StringBuilder room = new StringBuilder();
-      for (Door myDoor : myDoors) {
-        if (myDoor == null) {
-          room.append("| WALL |");
-        } else if (myDoor.isLocked() && !(myDoor.isLockedForever())) {
-          room.append("|LOCK|");
-        } else if (myDoor.isLockedForever()) {
-          room.append("|OPEN|");
-        } else {
-          room.append("|UNLOCK|");
-        }
-      }
-        room.append("\n");
-        return room.toString();
-    }
-
-     */
-
     public String toString(){
       String[] door = new String[4];
       for (int i = 0; i < myDoors.length; i++) {

@@ -13,7 +13,7 @@ public class Display {
   }
 
   public void displayRoom () {
-    System.out.print(myMaze.getRoomLocation().toString());
+    System.out.print(myMaze.getRoomDisplay());
   }
   public void StartIntro() {
     System.out.println("WELCOME TO TRIVIA MAZE");

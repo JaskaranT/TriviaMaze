@@ -1,6 +1,5 @@
 package controller;
 
-import model.Door;
 import model.TriviaMaze;
 import view.Display;
 
@@ -181,20 +180,22 @@ public class GameController {
   // Takes the player's input to moves player in that direction if it's possible
   private static boolean playerMovement (final String theDirection) {
     boolean success = false;
-    Door currentDoor = myMaze.getRoomLocation().getDoor(theDirection); //door that the player wants to go through
+    myMaze.setCurrentDoor(theDirection);
+   // Door currentDoor = myMaze.getRoomLocation().getDoor(theDirection); //door that the player wants to go through
     //first checks if the door is not a wall and not locked forever
-    if (myMaze.canMove(currentDoor)) {
+    if (myMaze.canMove()) {
       success = true;
       //checks that the door is locked
-      if (currentDoor.isLocked()) {
+      if (myMaze.checkLocked()) {
         //displays question for user and takes the input from user to match with answer
-        myDisplay.displayQuestion(currentDoor.getQuestion());
+        myDisplay.displayQuestion(myMaze.getDoorQuestion());
         String PlayersAnswer = myIn.nextLine();
-        currentDoor.answer(PlayersAnswer);
+        myMaze.checkPlayerAnswer(PlayersAnswer);
+        //currentDoor.answer(PlayersAnswer);
         // checks if the door is locked forever in the case of the player getting the question wrong
-        if (currentDoor.isLockedForever()) {
+        if (myMaze.checkLockedForever()) {
           myDisplay.displayIncorrect();
-          myDisplay.displayAnswer(currentDoor.getAnswer());
+          myDisplay.displayAnswer(myMaze.getDoorAnswer());
 
         } else {   // moves player to room if the door is not locked forever
           myMaze.MovePlayer(theDirection);

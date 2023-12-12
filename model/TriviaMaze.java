@@ -11,6 +11,8 @@ public class TriviaMaze implements Serializable {
 
     private static final int MY_SIZE = 4;
 
+    private Door myCurrentDoor;
+
 
     public TriviaMaze() {
         myX = 0;
@@ -42,14 +44,41 @@ public class TriviaMaze implements Serializable {
         return myX == MY_SIZE - 1 && myY == MY_SIZE - 1;
     }
 
-
-    public Room getRoomLocation() {
-        return myRooms[myX][myY];
+    public void setCurrentDoor(String theDirection) {
+        myCurrentDoor = myRooms[myX][myY].getDoor(theDirection);
     }
 
-    public boolean canMove(Door theDoor) {
+    private boolean canMove(Door theDoor) {
         return theDoor != null && !theDoor.isLockedForever();
     }
+    public boolean canMove() {
+        return myCurrentDoor != null && !myCurrentDoor.isLockedForever();
+    }
+
+    public boolean checkLocked() {
+        return myCurrentDoor.isLocked();
+    }
+
+    public boolean checkLockedForever() {
+        return myCurrentDoor.isLockedForever();
+    }
+
+    public String getDoorQuestion() {
+        return myCurrentDoor.getQuestion();
+    }
+
+    public String getDoorAnswer() {
+        return myCurrentDoor.getAnswer();
+    }
+
+    public void checkPlayerAnswer(String theAnswer) {
+         myCurrentDoor.answer(theAnswer);
+    }
+
+    public String getRoomDisplay() {
+        return myRooms[myX][myY].toString();
+    }
+
 
     public void MovePlayer (String theDirection) {
         switch (theDirection) {
