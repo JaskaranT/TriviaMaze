@@ -1,5 +1,7 @@
 package model;
 
+import model.question.Question_Answer;
+
 import java.io.Serializable;
 
 public class Door implements Serializable {
@@ -25,7 +27,7 @@ public class Door implements Serializable {
         return myDoorLockForever;
     }
 
-    public void answer(String thePlayersAnswer) {
+    public void answer(final String thePlayersAnswer) {
         if (thePlayersAnswer.equalsIgnoreCase(myQuestion.getCorrectAnswer())) {
             myDoorLock = false;
         } else {
