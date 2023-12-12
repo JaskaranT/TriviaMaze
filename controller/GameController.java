@@ -14,7 +14,7 @@ public class GameController {
   private static Display myDisplay;
   private static TriviaMaze myMaze;
 
-  public static void main (String []theArgs) {
+  protected GameController() {
     initialization();
     triviaMazeLoop();
   }
@@ -22,13 +22,14 @@ public class GameController {
   private static void initialization() {
     myMaze = new TriviaMaze();
     myDisplay = new Display(myMaze);
+    myDisplay.displayTitle();
     myDisplay.StartIntro();
   }
 
   // The Game Loop that will keep looping until the player has won or lost
   private static void triviaMazeLoop() {
-    // ask user to select a file
-    System.out.println("new or load");
+    // ask user to select a file or start new game
+    myDisplay.DisplayGameType();
     startupGame();
     boolean active = true;              //boolean to track if game is still active/playable
     while (active) {
@@ -56,11 +57,12 @@ public class GameController {
       userIn = myIn.nextLine();
       if (userIn.equalsIgnoreCase("new")) {
         success = true;
+        myDisplay.displayInstruction();
       } else if (userIn.equalsIgnoreCase("load")) {
         if (loadGame()) {
           success = true;
         } else {
-          System.out.println("new or load");
+          myDisplay.displayWrongIn();
         }
       }
     }
@@ -140,8 +142,8 @@ public class GameController {
   private static void gameMenu () {
     boolean validIn = false;
     myDisplay.displayFileMenu();
-    String playersIn = myIn.nextLine();
     while (!validIn) {
+      String playersIn = myIn.nextLine();
       if (playersIn.toLowerCase().matches("save")) {
         saveGame();
         validIn = true;
@@ -161,8 +163,8 @@ public class GameController {
   private static void gameHelpMenu () {
     boolean validIn = false;
     myDisplay.displayHelpMenu();
-    String playersIn = myIn.nextLine();
     while (!validIn) {
+      String playersIn = myIn.nextLine();
       if (playersIn.toLowerCase().matches("instr")) {
         myDisplay.displayInstruction();
         validIn = true;
