@@ -32,7 +32,7 @@ public class Display {
     private static final File GAME_WON_SOUND = new File("gamewon.wav");
 
    public static void main(String [] args) {
-       displayMoveControls();
+       printGameWon();
    }
 
     public static void displayMaze() {
@@ -78,6 +78,16 @@ public class Display {
 
     public static void printHelp() {
 
+       System.out.println("About\nCheats\nInstructions");
+
+    }
+
+    public static void printAbout() {
+       System.out.println("This is a trivia based game developed by Team 12(Jaskaran Toor, Tu Phan, Michael Castro");
+    }
+
+    public static void prompt() {
+       System.out.println("Enter G to return to game");
     }
 
     public static void displayMoveControls() {
