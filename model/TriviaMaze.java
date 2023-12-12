@@ -44,11 +44,11 @@ public class TriviaMaze implements Serializable {
         return myX == MY_SIZE - 1 && myY == MY_SIZE - 1;
     }
 
-    public void setCurrentDoor(String theDirection) {
+    public void setCurrentDoor(final String theDirection) {
         myCurrentDoor = myRooms[myX][myY].getDoor(theDirection);
     }
 
-    private boolean canMove(Door theDoor) {
+    private boolean canMove(final Door theDoor) {
         return theDoor != null && !theDoor.isLockedForever();
     }
     public boolean canMove() {
@@ -80,7 +80,7 @@ public class TriviaMaze implements Serializable {
     }
 
 
-    public void MovePlayer (String theDirection) {
+    public void MovePlayer (final String theDirection) {
         switch (theDirection) {
             case "north" -> myX--;
             case "west" -> myY--;
@@ -99,7 +99,7 @@ public class TriviaMaze implements Serializable {
         return move(myX, myY);
 
     }
-    private boolean move(int theX, int theY) {
+    private boolean move(final int theX, final int theY) {
         boolean success = false;
         if (validMove(theX, theY)) {
             myRooms[theX][theY].markVisited(true);
@@ -121,18 +121,18 @@ public class TriviaMaze implements Serializable {
         }
         return success;
     }
-    private boolean atExit(int theX, int theY) {
+    private boolean atExit(final int theX, final int theY) {
         return theX == myRooms.length - 1 && theY == myRooms[theX].length - 1;
     }
 
-    private boolean validMove(int theRow, int theCol) {
+    private boolean validMove(final int theRow, final int theCol) {
         return theRow >= 0 && theRow < 4 && theCol >= 0 && theCol < 4 && !(myRooms[theRow][theCol].visited());
     }
 
     public String toString() {
         StringBuilder triviaMaze = new StringBuilder();
         for (int i = 0; i < myRooms.length; i++) {
-            triviaMaze.append("\n");
+            triviaMaze.append("\n\t\t");
             for (int j = 0; j < myRooms[0].length; j++) {
                 if ((i == 0 && j == 0) && !(myX == i && myY == j)) {
                     triviaMaze.append("|ST|");
@@ -148,7 +148,7 @@ public class TriviaMaze implements Serializable {
                 }
             }
         }
-        triviaMaze.append("\n\n");
+        triviaMaze.append("\n");
         return triviaMaze.toString();
     }
 }
