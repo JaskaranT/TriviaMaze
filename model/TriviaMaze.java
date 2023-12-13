@@ -30,10 +30,13 @@ public class TriviaMaze implements Serializable {
 
     private Player myPlayer;
 
+
+    private Door myDoor;
+
     /**
      * Constant for size of the maze.
      */
-    private static final int MY_SIZE = 5;
+    private static final int MY_SIZE = 4;
 
     /**
      * Scanner to get user input
@@ -111,7 +114,7 @@ public class TriviaMaze implements Serializable {
 
         // Check if there is a wall in the direction
         if (currentDoor.getWall()) {
-            System.out.println("Oops! You hit a wall.");
+            System.out.println("\n\n\n\nOops! You hit a wall.");
             return false;
         }
 
@@ -126,13 +129,13 @@ public class TriviaMaze implements Serializable {
                 movable = true;
                 currentDoor.setDoorLocked(false);
                 currentDoor.setQuestionAnswered(true);
-                System.out.println("You got it!");
+                System.out.println("Correct!");
                 movePlayer(theDirection);
             } else {
                 // Lock the door if the question has been answered incorrectly
                 currentDoor.setDoorLocked(true);
                 currentDoor.setMyForeverLocked(true);
-                System.out.println("Oops! The " + theDirection + " door has been locked!");
+                System.out.println("Incorrect! The " + theDirection + " door has been locked!");
             }
         } else if (currentDoor.isDoorLocked() && currentDoor.getAnswered()) {
             // If the door is locked and the question has been answered
@@ -172,7 +175,7 @@ public class TriviaMaze implements Serializable {
      */
     public boolean endPossible(int theRow, int theColumn) {
         boolean result = false;
-        if (theRow == myRooms.length - 1 && theColumn == myRooms[0].length - 1) {
+        if (theRow ==myRooms.length - 1 && theColumn == myRooms[0].length - 1) {
             return true;
         }
         if (myRooms[theRow][theColumn].isVisited()) {
@@ -182,15 +185,15 @@ public class TriviaMaze implements Serializable {
         myRooms[theRow][theColumn].setMyVisited(true);
 
         result = canEnterRoom("north", theRow, theColumn) && endPossible(theRow - 1, theColumn);
-        if (!result) {
+        if(!result) {
             result = canEnterRoom("south", theRow, theColumn)
                     && endPossible(theRow + 1, theColumn);
         }
-        if (!result) {
+        if(!result) {
             result = canEnterRoom("west", theRow, theColumn)
                     && endPossible(theRow, theColumn - 1);
         }
-        if (!result) {
+        if(!result) {
             result = canEnterRoom("east", theRow, theColumn)
                     && endPossible(theRow, theColumn + 1);
         }
@@ -201,15 +204,16 @@ public class TriviaMaze implements Serializable {
     /**
      * this method checks if a room can be entered
      *
-     * @param theDoor
-     * @param theRow
-     * @param theColumn
+
      * @return
      */
     public boolean canEnterRoom(String theDoor, int theRow, int theColumn) {
         Room currentRoom = myRooms[theRow][theColumn];
         return !currentRoom.getDoor(theDoor).getWall()
                 && !currentRoom.getDoor(theDoor).isDoorLocked();
+    }
+    public boolean canMove() {
+        return myDoor != null && !myDoor.isDoorForeverLocked();
     }
 
 
@@ -240,9 +244,10 @@ public class TriviaMaze implements Serializable {
      * end of the maze.
      */
     public void teleportCheat() {
-        myPlayer.setX(MY_SIZE - 1);
-        myPlayer.setY(MY_SIZE - 1);
-    }
+            myPlayer.setX(myRooms.length -1);
+            myPlayer.setY(myRooms.length -1);
+        }
+
     /**
      * This is the toString method to display the maze.
      *
@@ -251,7 +256,7 @@ public class TriviaMaze implements Serializable {
     public String toString() {
         StringBuilder mazeString = new StringBuilder();
         for (int i = 0; i < myRooms.length; i++) {
-            mazeString.append("\n");
+            mazeString.append("\n\t");
             // Loop through all elements of current row
             for (int j = 0; j < myRooms[i].length; j++) {
                 if (i == myPlayer.getX() && j == myPlayer.getY()) {

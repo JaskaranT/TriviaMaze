@@ -1,5 +1,7 @@
 package model;
 
+import Questions.Question;
+
 import java.io.Serializable;
 
 public class Room implements Serializable {
@@ -28,22 +30,31 @@ public class Room implements Serializable {
         myVisited = false;
 
     }
-    public Door getDoor(final String theDoor) {
-        Door door = null;
-        if(theDoor.equals("north")) {
-            door = myNorth;
-        }
-        else if(theDoor.equals("south")) {
-            door = mySouth;
-        }
-        else if(theDoor.equals("west")) {
-            door = myWest;
-        }
-        else if(theDoor.equals("east")) {
-            door = myEast;
-        }
-        return door;
-    }
+
+
+      public Door getDoor(final String theDoor) {
+      Door door = null;
+      if(theDoor.equals("north")) {
+      door = myNorth;
+      }
+      else if(theDoor.equals("south")) {
+      door = mySouth;
+      }
+      else if(theDoor.equals("west")) {
+      door = myWest;
+      }
+      else if(theDoor.equals("east")) {
+      door = myEast;
+      }
+      return door;
+      }
+
+
+
+
+
+
+
 
     public void setNorth(final Door theNorth) {
         myNorth = theNorth;

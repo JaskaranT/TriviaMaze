@@ -1,7 +1,8 @@
 package model;
 
-public class Player {
+import java.io.Serializable;
 
+public class Player implements Serializable {
 
 
     private int myX;
@@ -9,8 +10,6 @@ public class Player {
     private int myY;
 
     private boolean myAlive;
-
-
 
 
     public Player() {

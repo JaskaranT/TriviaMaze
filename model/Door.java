@@ -1,6 +1,10 @@
 package model;
 
+import Questions.DatabaseQ;
+import Questions.Question;
+
 import java.io.Serializable;
+import java.util.Random;
 
 public class Door implements Serializable {
 
@@ -16,10 +20,9 @@ public class Door implements Serializable {
 
 
     public Door() {
-        myLocked = true;
+        myQuestion = DatabaseQ.getQuestion();
         myForeverLocked = false;
         myAnswered = false;
-       myQuestion= new Question();
 
 
     }
@@ -46,10 +49,7 @@ public class Door implements Serializable {
         return myQuestion;
     }
 
-    public String getAnswer() {
-        return myQuestion.getAnswer();
 
-    }
 
     public boolean getAnswered() {
         return myAnswered;
@@ -61,17 +61,13 @@ public class Door implements Serializable {
 
 
 
-    public boolean unlock(String answer) {
-        if (myForeverLocked) {
-            return false;
-        }
-
-        if (myQuestion.getAnswer().equalsIgnoreCase(answer)) {
+    public void unlock(final String theUserAnswer) {
+        /* When the door is still unlockable and the correct answer is given,
+        the door will unlock */
+        if (!myForeverLocked && theUserAnswer.equalsIgnoreCase(myQuestion.getAnswer())) {
             myLocked = false;
-            return true;
         } else {
             myForeverLocked = true;
-            return false;
         }
     }
 
