@@ -1,8 +1,10 @@
-package Questions;
+package model;
 
-import Questions.ShortAnswerQuestion;
 import org.sqlite.SQLiteDataSource;
 
+import model.Questions.Question_Answer;
+import model.Questions.ShortAnswerQuestion;
+import model.Questions.TrueFalseQuestion;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -13,7 +15,7 @@ import java.util.Random;
 
 public class DatabaseQ implements Serializable {
 
-    public static Question getQuestion() {
+    public static Question_Answer getQuestion() {
         Random rand = new Random();
         return switch (rand.nextInt(3)) {
             case 0 -> getShortAnswerQuestion();
@@ -24,7 +26,7 @@ public class DatabaseQ implements Serializable {
     }
 
 
-    private static Question getShortAnswerQuestion() {
+    private static Question_Answer getShortAnswerQuestion() {
         SQLiteDataSource ds = null;
 
         //establish connection (creates db file if it does not exist :-)
@@ -57,7 +59,7 @@ public class DatabaseQ implements Serializable {
         return null;
     }
 
-    private static Question getTrueFalseQuestion() {
+    private static Question_Answer getTrueFalseQuestion() {
         SQLiteDataSource ds = null;
 
         //establish connection (creates db file if it does not exist :-)
@@ -90,7 +92,7 @@ public class DatabaseQ implements Serializable {
         return null;
     }
 
-    private static Question getMultipleChoiceQuestion() {
+    private static Question_Answer getMultipleChoiceQuestion() {
         SQLiteDataSource ds = null;
 
         //establish connection (creates db file if it does not exist :-)

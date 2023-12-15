@@ -1,117 +1,87 @@
 package model;
 
-import Questions.Question;
-
 import java.io.Serializable;
 
 public class Room implements Serializable {
 
+    private final Door[] myDoors;
 
-    private Question myQuestion;
+    private boolean myHasVisited;
 
-    private Door myNorth;
+    private int myDirection;
 
-    private Door mySouth;
+    private static final int MY_NORTH = 0;
 
-    private Door myEast;
+    private static final int MY_WEST = 1;
 
-    private Door myWest;
+    private static final int MY_SOUTH = 2;
 
-    private boolean myVisited;
+    private static final int MY_EAST = 3;
 
-    private Room myCurrentRoom;
-
-
-    public Room() {
-        myEast = new Door();
-        myNorth = new Door();
-        myWest = new Door();
-        mySouth = new Door();
-        myVisited = false;
-
+    // This will Iterate through the 2d array adding doors to the proper locations
+    public Room(final int theRow, final int theCol, final Door theNorth, final Door theWest,
+                final Door theSouth, final Door theEast) {
+        myHasVisited = false;
+        int MY_TOTAL_SIDES = 4;
+        myDoors = new Door [MY_TOTAL_SIDES];
+        if ((theRow >= 0 && theRow < myDoors.length) && theCol < myDoors.length - 1) {
+            myDoors[MY_EAST] = theEast;
+        }
+        if ((theCol >= 0 && theCol < myDoors.length) && theRow < myDoors.length - 1) {
+            myDoors[MY_SOUTH] = theSouth;
+        }
+        if ((theCol > 0 && theCol < myDoors.length) && theRow < myDoors.length) {
+            myDoors[MY_WEST] = theWest;
+        }
+        if ((theRow > 0 && theRow < myDoors.length) && theCol < myDoors.length) {
+            myDoors[MY_NORTH] = theNorth;
+        }
     }
 
-
-      public Door getDoor(final String theDoor) {
-      Door door = null;
-      if(theDoor.equals("north")) {
-      door = myNorth;
-      }
-      else if(theDoor.equals("south")) {
-      door = mySouth;
-      }
-      else if(theDoor.equals("west")) {
-      door = myWest;
-      }
-      else if(theDoor.equals("east")) {
-      door = myEast;
-      }
-      return door;
-      }
-
-
-
-
-
-
-
-
-    public void setNorth(final Door theNorth) {
-        myNorth = theNorth;
-    }
-
-
-    public void setSouth(final Door theSouth) {
-        mySouth = theSouth;
-    }
-
-
-    public void setEast(final Door theEast) {
-        myEast = theEast;
-    }
-
-
-    public void setWest(final Door theWest) {
-        myWest = theWest;
-    }
-
-
-    public boolean isVisited() {
-        return myVisited;
-    }
-
-    public void setMyVisited(boolean theValue) {
-        myVisited = theValue;
-    }
-
-    public String checkSurroundings() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("Current position: ");
-        final Door doors[] = {myNorth, mySouth, myWest, myEast};
-        final String[] doorString = {"North: " , "South: ", "East: " , "West: "};
-        for(int i =0; i<doors.length; i++) {
-            sb.append("\n");
-            sb.append(doorString[i]);
-            if(!doors[i].isDoorLocked()&& doors[i].getAnswered()) {
-                sb.append("OPEN");
-            }
-            else if(doors[i].isDoorLocked() && doors[i].getAnswered()) {
-                sb.append("CLOSED");
-            }
-            else if(doors[i]== null) {
-                sb.append("WALL");
-            }
-            else if(!doors[i].isDoorLocked() && !doors[i].getAnswered()) {
-                sb.append("AVAILABLE");
-            }
+    public Door getDoor(final String theDirection) {
+        switch (theDirection.toLowerCase()) {
+            case "north" -> myDirection = MY_NORTH;
+            case "west" -> myDirection = MY_WEST;
+            case "south" -> myDirection = MY_SOUTH;
+            case "east" -> myDirection = MY_EAST;
         }
 
-        sb.append("\n");
-        return sb.toString();
+        return myDoors[myDirection];
+    }
+    public boolean visited() {
+        return myHasVisited;
     }
 
+    public void markVisited (final boolean theVisit) {
+        myHasVisited = theVisit;
+    }
 
-
-
-
+    public String toString(){
+        String[] door = new String[4];
+        for (int i = 0; i < myDoors.length; i++) {
+            if ((myDoors[i] == null)) {
+                door[i] = "XX";
+            } else if (myDoors[i].isLocked() && !(myDoors[i].isLockedForever())) {
+                door[i] = "LK";
+            } else if (myDoors[i].isLockedForever()) {
+                door[i] = "XX";
+            } else {
+                door[i] = "OP";
+            }
+        }
+        return String.format("""
+                             ROOM
+                ______________________________
+                            (NORTH)
+                             ____
+                             |%s|
+                        ____ ---- ____
+                (WEST)  |%s|  PL  |%s|  (EAST)
+                        ---- ____ ----
+                             |%s|
+                             ----
+                            (SOUTH)
+                ------------------------------
+                """, door[0], door[1], door[3],door[2]);
+    }
 }

@@ -1,6 +1,5 @@
 package controller;
 
-import model.Door;
 import model.TriviaMaze;
 import view.Display;
 
@@ -9,160 +8,65 @@ import java.util.Scanner;
 
 public class GameController {
 
-    private static Scanner input = new Scanner(System.in);
+    private static final File GAME = new File("TriviaGameSaveFile.txt");
+
+    private static final Scanner myIn = new Scanner(System.in);
     private static Display myDisplay;
     private static TriviaMaze myMaze;
 
-    private static final File GAME = new File("TriviaGameSaveFile.txt");
-
-    public static void main(String [] theArgs){
-
+    protected GameController() {
         initialization();
+        triviaMazeLoop();
     }
-
-    private static void initialization(){
-
-        Display.printTitle();
-        Display.printLaunchMenu();
-        runGame();
-        boolean alive = true;
-
-        while (alive) {
-            if(!myMaze.isPath()) {
-                Display.printGameLost();
-                alive = false;
-            }
-
-            if(myMaze.isGameWon()) {
-                Display.printGameWon();
-                alive = false;
-            }
-
-            if (alive) {
-                newGame();
-            }
-
-            if(!alive) {
-                initialization();
-            }
-        }
-
-    }
-
-
-
-
-
-    private static void gameSetup() {
+    //create new Maze and display. Print out Intro.
+    private static void initialization() {
         myMaze = new TriviaMaze();
         myDisplay = new Display(myMaze);
+        myDisplay.displayTitle();
+        myDisplay.StartIntro();
     }
 
-
-
-
-private static void runGame() {
-    // Load Game / Start New Game
-    boolean gameStarted = false;
-    String userGameStartInput;
-    while (!gameStarted) {
-        userGameStartInput =input.nextLine();
-        if (userGameStartInput.equalsIgnoreCase("1")) {
-            //Initialize the maze and display
-            gameStarted = true;
-            gameSetup();
-
-        } else if (userGameStartInput.equalsIgnoreCase("2")) {
-            //Initialize the maze and display
-           gameSetup();
-            //Load from beginning
-            if (loadGame()) {
-                gameStarted = true;
-            } else {
-                Display.printLaunchMenu();
+    // The Game Loop that will keep looping until the player has won or lost
+    private static void triviaMazeLoop() {
+        // ask user to select a file or start new game
+        myDisplay.DisplayGameType();
+        startupGame();
+        boolean active = true;              //boolean to track if game is still active/playable
+        while (active) {
+            //if there is no way for the player to navigate through the maze then the player loses.
+            if (!(myMaze.possibleRoute())) {
+                myDisplay.displayPlayerLost();
+                active = false;
             }
-        } else if (userGameStartInput.equalsIgnoreCase("3")) {
-            Display.displayMoveControls();
-        } else {
-            Display.userActionWarning();
-        }
-    }
-}
-
-
-    private static void newGame() {
-        printGame();
-        nextAction();
-    }
-
-    private static void printGame() {
-        Display.displayMaze();
-        Display.displayRoom();
-    }
-
-    private static void nextAction() {
-        boolean inputGood = false;
-        String userAction = "";
-        Display.printPrompt();
-
-        while (!inputGood) {
-            userAction = input.nextLine();
-            if (userAction.toLowerCase().matches("north|south|east|west")) {
-                inputGood = true;
-                executeAction(userAction);
-            } else if (userAction.toLowerCase().matches("help")) {
-                inputGood = true;
-                help();
-            } else if (userAction.toLowerCase().matches("file")) {
-                inputGood = true;
-                file();
-            } else if (userAction.toLowerCase().matches("Cheat")) {
-
-                inputGood = true;
-                Display.displayCheat();
-                myMaze.teleportCheat();
-                Display.printGameWon();
-            } else if (!userAction.toLowerCase().matches("")) {
-                Display.userActionWarning();
+            // if the player reaches the end of the maze, then the player wins.
+            if (myMaze.isGameWon()) {
+                myDisplay.displayPlayerWon();
+                active =  false;
+            }
+            // loop game if it's still active/playable.
+            if (active) {
+                triviaGame();
             }
         }
     }
 
-    private static void executeAction(final String theDirection) {
-        Door localDoor = myMaze.getCurrentRoom().getDoor(theDirection);
-        if (myMaze.move(theDirection)) {
-            if (localDoor.isDoorLocked()) {
-                localDoor.getQuestion();
-                String userAnswer = input.nextLine().toLowerCase();
-                if (userAnswer.matches("cheat")) {
-                    Display.displayCheat();
+    private static void startupGame () {
+        boolean success = false;
+        String userIn;
+        while (!success) {
+            userIn = myIn.nextLine();
+            if (userIn.equalsIgnoreCase("new")) {
+                success = true;
+                myDisplay.displayInstruction();
+            } else if (userIn.equalsIgnoreCase("load")) {
+                if (loadGame()) {
+                    success = true;
                 } else {
-                    attemptUnlock(userAnswer, localDoor);
+                    myDisplay.displayWrongIn();
                 }
-
-                if (localDoor.isDoorForeverLocked()) {
-                    boolean locked = true;
-                    localDoor.setMyForeverLocked(locked);
-                    Display.printWrongAnswer();
-
-                } else {
-                    Display.printCorrectAnswer();
-                   myMaze.movePlayer(theDirection);
-                }
-            } else {
-                myMaze.movePlayer(theDirection);
             }
         }
     }
-
-
-
-
-    private static void attemptUnlock(final String theAnswer, final Door theDoor) {
-        theDoor.unlock(theAnswer);
-    }
-
-
 
     private static boolean loadGame() {
         //Display prompt
@@ -202,66 +106,111 @@ private static void runGame() {
             System.out.println("Can't save");
         }
     }
+    //updates room, displays maze/room and asks for player's next move.
+    private static void triviaGame() {
+        myDisplay.displayMaze();
+        myDisplay.displayRoom();   //Still need work to display room
+        playersNextMove();
+    }
 
-    /**
-     * This method activates the cheat
-     * and prints the game won art.
-     */
-
-
-    private static void help() {
-        Display.printHelp();;
-        boolean inputGood = false;
-        String helpAction;
-        while (!inputGood) {
-            Display.printPrompt();
-            helpAction = input.nextLine();
-            if (helpAction.toLowerCase().matches("about")) {
-                inputGood = true;
-                Display.printAbout();
-                Display.prompt();
-                input.nextLine();
-            } else if (helpAction.toLowerCase().matches("instructions")) {
-                inputGood = true;
-                Display.displayIntro();
-                Display.prompt();
-                input.nextLine();
-            } else if (helpAction.toLowerCase().matches("cheats")) {
-                inputGood = true;
-                Display.displayCheat();
-                Display.prompt();
-                input.nextLine();
-
-            } else {
-                System.out.println("Invalid input!");
+    //gets player's next move. Checks if input is valid to send to next method to process movement.
+    //Still needs work
+    private static void playersNextMove(){
+        myDisplay.displayDirection();
+        boolean validIn = false;
+        String playersMove;
+        // will keep asking player to input a valid response until a valid response is inputted.
+        while (!validIn) {
+            playersMove = myIn.nextLine();
+            if (playersMove.toLowerCase().matches("north|west|south|east")) {
+                if (playerMovement(playersMove)){
+                    validIn = true;
+                }
+            }else if (playersMove.toLowerCase().matches("menu")) {
+                gameMenu();
+                validIn = true;
+            } else if (playersMove.toLowerCase().matches("help")) {
+                gameHelpMenu();
+                validIn = true;
+            }
+            else {
+                myDisplay.displayWrongIn();
             }
         }
     }
 
-    private static void file() {
-        Display.displayFile();
-        boolean inputGood = false;
-        String fileAction;
-
-        while (!inputGood) {
-            Display.printPrompt();
-            fileAction = input.nextLine();
-
-            if(fileAction.equals("2")){
-                inputGood = true;
-                input.close();
-                System.exit(0);
-            }
-
-            else if (fileAction.equals("1")) {
-                inputGood = true;
+    private static void gameMenu () {
+        boolean validIn = false;
+        myDisplay.displayFileMenu();
+        while (!validIn) {
+            String playersIn = myIn.nextLine();
+            if (playersIn.toLowerCase().matches("save")) {
                 saveGame();
+                validIn = true;
+            } else if (playersIn.toLowerCase().matches("load")) {
+                loadGame();
+                validIn = true;
+            } else if (playersIn.toLowerCase().matches("exit")) {
+                myIn.close();
+                System.exit(0);
+            } else {
+                myDisplay.displayWrongIn();
             }
         }
+
     }
 
+    private static void gameHelpMenu () {
+        boolean validIn = false;
+        myDisplay.displayHelpMenu();
+        while (!validIn) {
+            String playersIn = myIn.nextLine();
+            if (playersIn.toLowerCase().matches("instr")) {
+                myDisplay.displayInstruction();
+                validIn = true;
+            } else if (playersIn.toLowerCase().matches("about")) {
+                myDisplay.GameInfo();
+                validIn = true;
+            } else {
+                myDisplay.displayWrongIn();
+            }
 
+        }
+
+    }
+
+    // Takes the player's input to moves player in that direction if it's possible
+    private static boolean playerMovement (final String theDirection) {
+        boolean success = false;
+        myMaze.setCurrentDoor(theDirection);
+        // Door currentDoor = myMaze.getRoomLocation().getDoor(theDirection); //door that the player wants to go through
+        //first checks if the door is not a wall and not locked forever
+        if (myMaze.canMove()) {
+            success = true;
+            //checks that the door is locked
+            if (myMaze.checkLocked()) {
+                //displays question for user and takes the input from user to match with answer
+                myDisplay.displayQuestion(myMaze.getDoorQuestion());
+                String PlayersAnswer = myIn.nextLine();
+                myMaze.checkPlayerAnswer(PlayersAnswer);
+                //currentDoor.answer(PlayersAnswer);
+                // checks if the door is locked forever in the case of the player getting the question wrong
+                if (myMaze.checkLockedForever()) {
+                    myDisplay.displayIncorrect();
+                    myDisplay.displayAnswer(myMaze.getDoorAnswer());
+
+                } else {   // moves player to room if the door is not locked forever
+                    myMaze.MovePlayer(theDirection);
+                    myDisplay.displayCorrect();
+                }
+            } else { // moves player to room if the room had already been visited
+                myMaze.MovePlayer(theDirection);
+                myDisplay.displayVisited();
+            }
+        } else { //indicates that user is trying to move to an invalid location. Either wall or Locked forever door
+            myDisplay.displayWrongDirection();
+        }
+        return success;
+    }
 
 }
-
-
