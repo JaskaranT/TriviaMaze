@@ -47,7 +47,7 @@ public class TriviaMaze implements Serializable {
     /**
      * Generates the size and layout of the maze.
      */
-    private void generateMaze() {
+    public void generateMaze() {
 
         for (int x = 0; x < myRooms.length; x++) {
             for (int y = 0; y < myRooms[x].length; y++) {
@@ -64,6 +64,10 @@ public class TriviaMaze implements Serializable {
                 myRooms[x][y] = new Room(x, y, north, west, south, east);
             }
         }
+    }
+
+    public Room[][] getMaze() {
+        return myRooms;
     }
 
     /**
@@ -145,6 +149,25 @@ public class TriviaMaze implements Serializable {
      */
     public String getRoomDisplay() {
         return myRooms[myX][myY].toString();
+    }
+
+    /**
+     * gets the players x and y coordinates.
+     * @return array of players x and y.
+     */
+    public int[] getLocation() {
+        int[] location = {myX, myY};
+                return location;
+    }
+
+    /**
+     * Sets the user location.
+     * @param theX
+     * @param theY
+     */
+    public void setLocation(int theX, int theY){
+        myY = theY;
+        myX = theX;
     }
 
     /**
