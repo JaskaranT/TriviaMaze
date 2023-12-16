@@ -28,6 +28,10 @@ public class Door implements Serializable {
         return myDoorLockForever;
     }
 
+    public void setMyDoorLockForever(final boolean theLockForever) {
+        myDoorLockForever = theLockForever;
+    }
+
     public void answer(final String thePlayersAnswer) {
         if (thePlayersAnswer.equalsIgnoreCase(myQuestion.getCorrectAnswer())) {
             myDoorLock = false;
