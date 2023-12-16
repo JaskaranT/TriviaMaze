@@ -1,11 +1,13 @@
 package model;
 
+import model.question.AbstractQuestionAnswer;
+import model.question.MultipleChoiceQuestion;
 import org.sqlite.SQLiteDataSource;
 
-import model.question.Question_Answer;
 import model.question.ShortAnswerQuestion;
 import model.question.TrueFalseQuestion;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,9 +15,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 
+/**
+ * The DatabaseQ class provides methods to retrieve random questions
+ * from an SQLite database.
+ */
 public class DatabaseQ implements Serializable {
 
-    public static Question_Answer getQuestion() {
+    @Serial
+    private static final long serialVersionUID = -6067340647728932375L;
+
+    /**
+     * Retrieves a random question (either Short Answer, True/False,
+     * or Multiple Choice) from the database.
+     *
+     * @return An AbstractQuestionAnswer object representing a random question.
+     */
+    public static AbstractQuestionAnswer getQuestion() {
         Random rand = new Random();
         return switch (rand.nextInt(3)) {
             case 0 -> getShortAnswerQuestion();
@@ -25,8 +40,13 @@ public class DatabaseQ implements Serializable {
         };
     }
 
-
-  private static Question_Answer getShortAnswerQuestion() {
+    /**
+     * Retrieves a random Short Answer question from the database.
+     *
+     * @return A ShortAnswerQuestion object representing a random
+     * Short Answer question.
+     */
+  private static AbstractQuestionAnswer getShortAnswerQuestion() {
     SQLiteDataSource ds = null;
 
     //establish connection (creates db file if it does not exist :-)
@@ -59,7 +79,12 @@ public class DatabaseQ implements Serializable {
     return null;
   }
 
-    private static Question_Answer getTrueFalseQuestion() {
+    /**
+     * Retrieves a random True/False question from the database.
+     *
+     * @return A TrueFalseQuestion object representing a random True/False question.
+     */
+    private static AbstractQuestionAnswer getTrueFalseQuestion() {
         SQLiteDataSource ds = null;
 
         //establish connection (creates db file if it does not exist :-)
@@ -92,7 +117,13 @@ public class DatabaseQ implements Serializable {
         return null;
     }
 
-    private static Question_Answer getMultipleChoiceQuestion() {
+    /**
+     * Retrieves a random Multiple Choice question from the database.
+     *
+     * @return A MultipleChoiceQuestion object representing a random
+     * Multiple Choice question.
+     */
+    private static AbstractQuestionAnswer getMultipleChoiceQuestion() {
         SQLiteDataSource ds = null;
 
         //establish connection (creates db file if it does not exist :-)
@@ -115,7 +146,7 @@ public class DatabaseQ implements Serializable {
                 String question = rs.getString( "QUESTION" );
                 String answer = rs.getString( "ANSWER" );
 
-                return new ShortAnswerQuestion(question, answer);
+                return new MultipleChoiceQuestion(question, answer);
 
             }
         } catch ( SQLException e ) {

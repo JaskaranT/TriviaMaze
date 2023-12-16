@@ -1,25 +1,42 @@
 package view;
 
-import model.TriviaMaze;
-
+/**
+ * The Display class is responsible for displaying information to the user
+ * during the trivia-based maze game.
+ */
 public class Display {
-  private final TriviaMaze myMaze;
-  public Display(TriviaMaze theMaze) {
-    myMaze = theMaze;
+
+    /**
+     * Constructs a Display object.
+     */
+  public Display() {
   }
 
-  public void displayMaze() {
+    /**
+     * Displays the current state of the maze to the console.
+     *
+     * @param theMaze The string representation of the maze.
+     */
+  public void displayMaze(final String theMaze) {
     System.out.println("\t\t\t  MAZE");
     System.out.print("\t\t________________");
-    System.out.print(myMaze.toString());
+    System.out.print(theMaze);
     System.out.println("\t\t----------------");
     System.out.println("/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\");
   }
 
-  public void displayRoom () {
-    System.out.print(myMaze.getRoomDisplay());
+    /**
+     * Displays the current state of the room to the console.
+     *
+     * @param theDoor The string representation of the current room.
+     */
+  public void displayRoom (final String theDoor) {
+    System.out.print(theDoor);
   }
 
+    /**
+     * Displays the game type options to the console.
+     */
   public void DisplayGameType() {
     System.out.println("""
 
@@ -28,6 +45,9 @@ public class Display {
 
   }
 
+    /**
+     * Displays the title of the game to the console.
+     */
   public void displayTitle() {
     System.out.println("""
 
@@ -46,10 +66,17 @@ public class Display {
             ─────██████─────██████──██████████─██████████─────██████─────██████████─██████──██████────██████──────────██████─██████──██████─██████████████████─██████████████─
             ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────""");
   }
+
+    /**
+     * Displays the welcoming to the console.
+     */
   public void StartIntro() {
     System.out.println("WELCOME TO TRIVIA MAZE");
     GameInfo();
   }
+    /**
+     * Displays the game's information to the console.
+     */
   public void GameInfo () {
     System.out.println("In this game you will be placed in the start location.");
     System.out.println("You will then need to choose room that's adjacent to we you are currently at.");
@@ -61,6 +88,9 @@ public class Display {
     System.out.println("If you lock yourself out and there's no where to go then its game over.");
   }
 
+    /**
+     * Displays the game instructions to the console.
+     */
   public void displayInstruction() {
     System.out.println("Instructions: ");
     System.out.println("To move to a different room, you can type:");
@@ -74,7 +104,7 @@ public class Display {
     System.out.println("|RM| means a room");
     System.out.println("|ED| means the end room to win");
     System.out.println();
-    System.out.println("In the Room display:");
+    System.out.println("In the TriviaRoom display:");
     System.out.println("|XX| means you can't go through either because it's a wall or door is locked forever");
     System.out.println("|OP| means you can access that door since it was unlocked");
     System.out.println("|LK| means the door is locked but is accessible if Question is answered correctly");
@@ -85,57 +115,114 @@ public class Display {
     System.out.println("True or False - You must type either True or False");
     System.out.println();
   }
-  public void displayQuestion(final String theQuestion) {
-    System.out.println(theQuestion);
-  }
+    /**
+     * Displays the question to the console.
+     *
+     * @param theQuestion The question to be displayed.
+     */
+    public void displayQuestion(final String theQuestion) {
+        System.out.println(theQuestion);
+    }
 
-  public void displayAnswer(final String theAnswer) {
-    System.out.println("The correct answer was " + theAnswer);
-  }
+    /**
+     * Displays the correct answer to the console.
+     *
+     * @param theAnswer The correct answer.
+     */
+    public void displayAnswer(final String theAnswer) {
+        System.out.println("The correct answer was " + theAnswer);
+    }
 
-  public void displayPlayerWon() {
-    System.out.println("CONGRATULATIONS! YOU WON!");
-  }
+    /**
+     * Displays a message indicating that the player has won the game.
+     */
+    public void displayPlayerWon() {
+        System.out.println("CONGRATULATIONS! YOU WON!");
+    }
 
-  public void displayPlayerLost() {
-    System.out.println("Sorry, there are no more doors to unlock. You Have Lost...");
-  }
+    /**
+     * Displays a message indicating that the player has lost the game.
+     */
+    public void displayPlayerLost() {
+        System.out.println("Sorry, there are no more doors to unlock. You Have Lost...");
+    }
 
-  public void displayCorrect() {
-    System.out.println("CORRECT! You may proceed");
-  }
+    /**
+     * Displays a message indicating that the player provided the correct answer.
+     */
+    public void displayCorrect() {
+        System.out.println("CORRECT! You may proceed");
+    }
 
-  public void displayIncorrect() {
-    System.out.println("INCORRECT! Door is now locked forever");
-  }
+    /**
+     * Displays a message indicating that the player provided the incorrect answer.
+     */
+    public void displayIncorrect() {
+        System.out.println("INCORRECT! TriviaDoor is now locked forever");
+    }
 
-  public void displayDirection() {
-    System.out.println("Options: |MENU| - |HELP| ");
-    System.out.println("Type an option or direction");
-    System.out.println();
-  }
+    /**
+     * Displays a success message for file operations.
+     */
+    public void displayFileSuccess() {
+        System.out.println("Success");
+    }
 
-  public void displayWrongIn() {
-    System.out.println("Wrong Input Try Again.");
-  }
-  public void displayWrongDirection() {
-    System.out.println("Can't go that Direction. Try again.");
-  }
+    /**
+     * Displays a failure message for file operations.
+     */
+    public void displayFileFailed() {
+        System.out.println("Failed");
+    }
 
-  public void displayVisited() {
-    System.out.println("You already visited this room welcome back");
-  }
+    /**
+     * Displays the available directions and options to the console.
+     */
+    public void displayDirection() {
+        System.out.println("Options: |MENU| - |HELP| ");
+        System.out.println("Type an option or direction");
+        System.out.println();
+    }
 
-  public void displayFileMenu() {
-    System.out.println("Type one of the following:");
-    System.out.println("\"Save\" to save game");
-    System.out.println("\"Load\" to load game");
-    System.out.println("\"Exit\" to exit game");
-  }
-  public void displayHelpMenu() {
-    System.out.println("Type one of the following:");
-    System.out.println("\"About\" for information about the game");
-    System.out.println("\"Instr\" for game Instructions");
-  }
+    /**
+     * Displays a message indicating that the player provided an incorrect input.
+     */
+    public void displayWrongIn() {
+        System.out.println("Wrong Input Try Again.");
+    }
+
+    /**
+     * Displays a message indicating that the player
+     * attempted to move in an invalid direction.
+     */
+    public void displayWrongDirection() {
+        System.out.println("Can't go that Direction. Try again.");
+    }
+
+    /**
+     * Displays a message indicating that the player has revisited a room.
+     */
+    public void displayVisited() {
+        System.out.println("You already visited this room. Welcome back");
+    }
+
+    /**
+     * Displays the file menu options to the console.
+     */
+    public void displayFileMenu() {
+        System.out.println("Type one of the following:");
+        System.out.println("\"Save\" to save game");
+        System.out.println("\"Load\" to load game");
+        System.out.println("\"Exit\" to exit game");
+    }
+
+    /**
+     * Displays the help menu options to the console.
+     */
+    public void displayHelpMenu() {
+        System.out.println("Type one of the following:");
+        System.out.println("\"About\" for information about the game");
+        System.out.println("\"Instr\" for game Instructions");
+    }
 
 }

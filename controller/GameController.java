@@ -6,51 +6,77 @@ import view.Display;
 import java.io.*;
 import java.util.Scanner;
 
+/**
+ * The GameController class manages the flow and logic of the
+ * trivia-based maze game.
+ */
 public class GameController {
 
+  /**
+   * The file used to save and load the game state.
+   */
   private static final File GAME = new File("TriviaGameSaveFile.txt");
 
+  /**
+   * Scanner object to read user input.
+   */
   private static final Scanner myIn = new Scanner(System.in);
+
+  /**
+   * The display object responsible for showing information to the user.
+   */
   private static Display myDisplay;
+
+  /**
+   * The TriviaMaze object representing the game state.
+   */
   private static TriviaMaze myMaze;
 
+  /**
+   * Constructs a GameController object and initializes the game.
+   */
   protected GameController() {
     initialization();
     triviaMazeLoop();
   }
-//create new Maze and display. Print out Intro.
+
+  /**
+   * Initializes the game by creating a new TriviaMaze and Display.
+   */
   private static void initialization() {
     myMaze = new TriviaMaze();
-    myDisplay = new Display(myMaze);
+    myDisplay = new Display();
     myDisplay.displayTitle();
     myDisplay.StartIntro();
   }
 
-  // The Game Loop that will keep looping until the player has won or lost
+  /**
+   * The main game loop that continues until the player wins or loses.
+   */
   private static void triviaMazeLoop() {
-    // ask user to select a file or start new game
     myDisplay.DisplayGameType();
     startupGame();
-    boolean active = true;              //boolean to track if game is still active/playable
+    boolean active = true;
     while (active) {
-      //if there is no way for the player to navigate through the maze then the player loses.
       if (!(myMaze.possibleRoute())) {
         myDisplay.displayPlayerLost();
         active = false;
       }
-      // if the player reaches the end of the maze, then the player wins.
       if (myMaze.isGameWon()) {
         myDisplay.displayPlayerWon();
         active =  false;
       }
-      // loop game if it's still active/playable.
       if (active) {
         triviaGame();
       }
     }
   }
 
-  private static void startupGame () {
+  /**
+   * Handles the startup phase of the game, where the player chooses to start
+   * a new game or load a saved one.
+   */
+  private static void startupGame() {
     boolean success = false;
     String userIn;
     while (!success) {
@@ -68,31 +94,34 @@ public class GameController {
     }
   }
 
+  /**
+   * Loads a saved game from the specified file.
+   *
+   * @return true if the loading is successful, false otherwise.
+   */
   private static boolean loadGame() {
-    //Display prompt
     boolean success = false;
     try {
       FileInputStream file = new FileInputStream(GAME);
       if (GAME.length() != 0) {
         ObjectInputStream in = new ObjectInputStream(file);
         myMaze = (TriviaMaze) in.readObject();
-        myDisplay = new Display(myMaze);
-        //display load successful
-        System.out.println("success");
+        myDisplay.displayFileSuccess();
         success = true;
       } else {
-        //Display load fail;
-        System.out.println("failed ");
-
+        myDisplay.displayFileFailed();
       }
     } catch (IOException e) {
-      System.out.println("No Save file exits");
+      System.out.println("No Save file exists");
     } catch (ClassNotFoundException e) {
       throw new RuntimeException(e);
     }
     return success;
   }
 
+  /**
+   * Saves the current game state to the specified file.
+   */
   private static void saveGame() {
     try {
       FileOutputStream file = new FileOutputStream(GAME);
@@ -101,45 +130,51 @@ public class GameController {
       out.writeObject(myMaze);
       out.close();
       file.close();
-      System.out.println("success");
+      myDisplay.displayFileSuccess();
     } catch (IOException e) {
-      System.out.println("Can't save");
+      myDisplay.displayFileFailed();
     }
   }
-  //updates room, displays maze/room and asks for player's next move.
+
+  /**
+   * Displays the current state of the game and handles player
+   * input during the game.
+   */
   private static void triviaGame() {
-    myDisplay.displayMaze();
-    myDisplay.displayRoom();   //Still need work to display room
+    myDisplay.displayMaze(myMaze.toString());
+    myDisplay.displayRoom(myMaze.getRoomDisplay());
     playersNextMove();
   }
 
-  //gets player's next move. Checks if input is valid to send to next method to process movement.
-  //Still needs work
-  private static void playersNextMove(){
+  /**
+   * Gets the player's next move and checks if the input is valid.
+   */
+  private static void playersNextMove() {
     myDisplay.displayDirection();
     boolean validIn = false;
     String playersMove;
-    // will keep asking player to input a valid response until a valid response is inputted.
     while (!validIn) {
       playersMove = myIn.nextLine();
       if (playersMove.toLowerCase().matches("north|west|south|east")) {
-        if (playerMovement(playersMove)){
+        if (playerMovement(playersMove)) {
           validIn = true;
         }
-      }else if (playersMove.toLowerCase().matches("menu")) {
+      } else if (playersMove.toLowerCase().matches("menu")) {
         gameMenu();
         validIn = true;
       } else if (playersMove.toLowerCase().matches("help")) {
         gameHelpMenu();
         validIn = true;
-      }
-      else {
+      } else {
         myDisplay.displayWrongIn();
       }
     }
   }
 
-  private static void gameMenu () {
+  /**
+   * Displays the game menu and handles player input for menu options.
+   */
+  private static void gameMenu() {
     boolean validIn = false;
     myDisplay.displayFileMenu();
     while (!validIn) {
@@ -157,10 +192,12 @@ public class GameController {
         myDisplay.displayWrongIn();
       }
     }
-
   }
 
-  private static void gameHelpMenu () {
+  /**
+   * Displays the help menu and handles player input for help options.
+   */
+  private static void gameHelpMenu() {
     boolean validIn = false;
     myDisplay.displayHelpMenu();
     while (!validIn) {
@@ -174,43 +211,38 @@ public class GameController {
       } else {
         myDisplay.displayWrongIn();
       }
-
     }
-
   }
 
-  // Takes the player's input to moves player in that direction if it's possible
-  private static boolean playerMovement (final String theDirection) {
+  /**
+   * Moves the player based on the provided direction and handles door interactions.
+   *
+   * @param theDirection The direction in which the player wants to move.
+   * @return true if the player successfully moved, false otherwise.
+   */
+  private static boolean playerMovement(final String theDirection) {
     boolean success = false;
     myMaze.setCurrentDoor(theDirection);
-   // Door currentDoor = myMaze.getRoomLocation().getDoor(theDirection); //door that the player wants to go through
-    //first checks if the door is not a wall and not locked forever
     if (myMaze.canMove()) {
       success = true;
-      //checks that the door is locked
       if (myMaze.checkLocked()) {
-        //displays question for user and takes the input from user to match with answer
         myDisplay.displayQuestion(myMaze.getDoorQuestion());
-        String PlayersAnswer = myIn.nextLine();
-        myMaze.checkPlayerAnswer(PlayersAnswer);
-        //currentDoor.answer(PlayersAnswer);
-        // checks if the door is locked forever in the case of the player getting the question wrong
+        String playersAnswer = myIn.nextLine();
+        myMaze.checkPlayerAnswer(playersAnswer);
         if (myMaze.checkLockedForever()) {
           myDisplay.displayIncorrect();
           myDisplay.displayAnswer(myMaze.getDoorAnswer());
-
-        } else {   // moves player to room if the door is not locked forever
-          myMaze.MovePlayer(theDirection);
+        } else {
+          myMaze.movePlayer(theDirection);
           myDisplay.displayCorrect();
         }
-      } else { // moves player to room if the room had already been visited
-        myMaze.MovePlayer(theDirection);
+      } else {
+        myMaze.movePlayer(theDirection);
         myDisplay.displayVisited();
       }
-    } else { //indicates that user is trying to move to an invalid location. Either wall or Locked forever door
+    } else {
       myDisplay.displayWrongDirection();
     }
     return success;
   }
-
 }
