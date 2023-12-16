@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="730" prefWidth="1300" stylesheets="@SettingsScene.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.triviamaze.SettingsSceneController">
+    <children>
+        <Pane fx:id="SceneBackground" prefHeight="730.0" prefWidth="1300.0">
+         <children>
+            <Button fx:id="BackButton" layoutX="484.0" layoutY="467.0" mnemonicParsing="false" onAction="#returnToMainMenu" prefHeight="65.0" prefWidth="332.0" text="Return to Main Menu">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
+            <Button fx:id="clearScoreboardButton" layoutX="484.0" layoutY="365.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="332.0" text="Clear Scoreboard">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Slider fx:id="musicSlider" blockIncrement="5.0" layoutX="594.0" layoutY="237.0" majorTickUnit="100.0" prefHeight="27.0" prefWidth="189.0" value="50.0" />
+            <Slider fx:id="effectsSlider" blockIncrement="5.0" layoutX="594.0" layoutY="283.0" majorTickUnit="100.0" prefHeight="39.0" prefWidth="189.0" value="50.0" />
+            <Label layoutX="439.0" layoutY="235.0" text="Music Volume" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="439.0" layoutY="287.0" text="Effects Volume" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="effectsPercentLabel" layoutX="805.0" layoutY="288.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="musicPercentLabel" layoutX="805.0" layoutY="235.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="returnToTheGame" layoutX="484.0" layoutY="550.0" mnemonicParsing="false" onAction="#returnToTheGame" prefHeight="65.0" prefWidth="332.0" text="Return to the Game">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children></Pane>
+    </children>
+</VBox>

@@ -1,2 +1,2 @@
 # TriviaMaze
-Interactive puzzle-based game
+The repository for the Trivia Maze Project.

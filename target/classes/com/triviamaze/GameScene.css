@@ -1,0 +1,112 @@
+.root { -fx-background-color: transparent; }
+#SceneBackground {
+    -fx-background-image: url("Images/MainBackground.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+
+
+#WestBridge,#EastBridge {
+    -fx-text-fill: transparent;
+    -fx-background-image: url("Images/horizontal_bridge.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+
+#WestBridge:hover,#EastBridge:hover {
+    -fx-text-fill: transparent;
+    -fx-background-image: url("Images/horizontal_bridge_hover.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+
+#SouthBridge,#NorthBridge {
+    -fx-text-fill: transparent;
+    -fx-background-image: url("Images/vertical_bridge.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+
+#SouthBridge:hover,#NorthBridge:hover {
+    -fx-text-fill: transparent;
+    -fx-background-image: url("Images/vertical_bridge_hover.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+
+#giveUpButton {
+    -fx-text-fill: transparent;
+    -fx-background-image: url("Images/give_up.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+
+#giveUpButton:hover {
+    -fx-text-fill: transparent;
+    -fx-background-image: url("Images/give_up_hover.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+
+#winLabel {
+    -fx-text-fill: transparent;
+    -fx-background-image: url("Images/Labels/youWon.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-alignment: center;
+}
+
+#loseLabel {
+    -fx-text-fill: transparent;
+    -fx-background-image: url("Images/Labels/youLost.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-alignment: center;
+}
+
+#settingsButton {
+    -fx-background-image: url("Images/Buttons/Settings.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#settingsButton:hover {
+    -fx-background-image: url("Images/Buttons/SettingsHover.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+#exitButton {
+    -fx-background-image: url("Images/Buttons/Exit.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#exitButton:hover,clicked {
+    -fx-background-image: url("Images/Buttons/ExitHover.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#helpButton {
+    -fx-background-image: url("Images/Buttons/helpButton.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#helpButton:hover,clicked {
+    -fx-background-image: url("Images/Buttons/helpButtonHover.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#theRoom {
+    -fx-background-image: url("Images/theRoom.png");
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
