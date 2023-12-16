@@ -2,23 +2,56 @@ package model;
 
 import java.io.Serializable;
 
+/**
+ * @author Jaskaran Toor
+ * @author Michael Castro
+ * @author Tu Phan
+ * @version 12/12/2023
+ *
+ * This is the room class that holds 4 doors per room
+ */
+
 public class Room implements Serializable {
-
+    /**
+     * Array of the 4 doors in the room.
+     */
     private final Door[] myDoors;
-
+    /**
+     * boolean to see if player has visited the room.
+     */
     private boolean myHasVisited;
-
+    /**
+     * Value for all 4 doors
+     */
     private int myDirection;
 
+    /**
+     * Constant for North door.
+     */
     private static final int MY_NORTH = 0;
-
+    /**
+     * Constant for West door.
+     */
     private static final int MY_WEST = 1;
-
+    /**
+     * Constant for South door.
+     */
     private static final int MY_SOUTH = 2;
-
+    /**
+     * Constant for East door.
+     */
     private static final int MY_EAST = 3;
 
-    // This will Iterate through the 2d array adding doors to the proper locations
+    /**
+     * Constructor that adds all 4 doors in the
+     * rooms at the proper locations.
+     * @param theRow
+     * @param theCol
+     * @param theNorth
+     * @param theWest
+     * @param theSouth
+     * @param theEast
+     */
     public Room(final int theRow, final int theCol, final Door theNorth, final Door theWest,
                 final Door theSouth, final Door theEast) {
         myHasVisited = false;
@@ -38,6 +71,12 @@ public class Room implements Serializable {
         }
     }
 
+    /**
+     * gets the users input for the door and assigns it to the corresponding
+     * value for that door.
+     * @param theDirection
+     * @return Door
+     */
     public Door getDoor(final String theDirection) {
         switch (theDirection.toLowerCase()) {
             case "north" -> myDirection = MY_NORTH;
@@ -48,14 +87,28 @@ public class Room implements Serializable {
 
         return myDoors[myDirection];
     }
+
+    /**
+     * Checks if user has visited the room.
+     * @return boolean
+     */
     public boolean visited() {
         return myHasVisited;
     }
 
+    /**
+     * Sets the value for if the room has been visited.
+     * @param theVisit
+     */
     public void markVisited (final boolean theVisit) {
         myHasVisited = theVisit;
     }
 
+    /**
+     * toString representation of the current room that displays information
+     * of all 4 doors in the room.
+     * @return String
+     */
     public String toString(){
         String[] door = new String[4];
         for (int i = 0; i < myDoors.length; i++) {
