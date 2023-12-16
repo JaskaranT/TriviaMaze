@@ -1,3 +1,8 @@
+/*
+ * TCSS 360 Autumn 2023
+ * Course Project
+ */
+
 package model.question;
 
 import java.io.Serial;
@@ -6,6 +11,11 @@ import java.io.Serializable;
 /**
  * The TrueFalseQuestion class represents a true or false question
  * with a single correct answer. It extends the AbstractQuestionAnswer class.
+ *
+ * @author Jaskaran Toor
+ * @author Michael Castro
+ * @author Tu Phan
+ * @version 12/15/2023
  */
 public class TrueFalseQuestion extends AbstractQuestionAnswer implements Serializable {
     @Serial

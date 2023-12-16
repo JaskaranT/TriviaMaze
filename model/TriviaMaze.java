@@ -1,3 +1,8 @@
+/*
+ * TCSS 360 Autumn 2023
+ * Course Project
+ */
+
 package model;
 
 import java.io.Serial;
@@ -5,6 +10,11 @@ import java.io.Serializable;
 
 /**
  * The TriviaMaze class represents a trivia-based maze game.
+ *
+ * @author Jaskaran Toor
+ * @author Michael Castro
+ * @author Tu Phan
+ * @version 12/15/2023
  */
 public class TriviaMaze implements Serializable {
     @Serial
@@ -47,7 +57,7 @@ public class TriviaMaze implements Serializable {
     /**
      * Generates the maze by creating rooms and doors for each location.
      */
-    private void generateMaze() {
+    public void generateMaze() {
         for (int x = 0; x < MAZE_SIZE; x++) {
             for (int y = 0; y < MAZE_SIZE; y++) {
                 TriviaDoor north = null;
@@ -63,6 +73,33 @@ public class TriviaMaze implements Serializable {
                 myRooms[x][y] = new TriviaRoom(x, y, north, west, south, east);
             }
         }
+    }
+
+    /**
+     * Get the Maze with room objects.
+     * @return the Rooms
+     */
+    public TriviaRoom[][] getMaze() {
+        return myRooms;
+    }
+
+    /**
+     * gets the players x and y coordinates.
+     * @return array of players x and y.
+     */
+    public int[] getLocation() {
+        int[] location = {myX, myY};
+        return location;
+    }
+
+    /**
+     * Sets the user location.
+     * @param theX
+     * @param theY
+     */
+    public void setLocation(int theX, int theY){
+        myY = theY;
+        myX = theX;
     }
 
     /**

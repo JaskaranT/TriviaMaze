@@ -1,3 +1,8 @@
+/*
+ * TCSS 360 Autumn 2023
+ * Course Project
+ */
+
 package test;
 
 import model.TriviaDoor;
@@ -6,6 +11,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * @author Jaskaran Toor
+ * @author Tu Phan
+ * @author Michael Castro
+ *
+ * Test for room class.
+ */
 
 class TriviaRoomTest {
 

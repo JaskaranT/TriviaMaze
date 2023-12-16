@@ -1,3 +1,7 @@
+/*
+ * TCSS 360 Autumn 2023
+ * Course Project
+ */
 package controller;
 
 import model.TriviaMaze;
@@ -9,6 +13,11 @@ import java.util.Scanner;
 /**
  * The GameController class manages the flow and logic of the
  * trivia-based maze game.
+ *
+ * @author Jaskaran Toor
+ * @author Michael Castro
+ * @author Tu Phan
+ * @version 12/15/2023
  */
 public class GameController {
 

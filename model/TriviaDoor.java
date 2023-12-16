@@ -1,3 +1,8 @@
+/*
+ * TCSS 360 Autumn 2023
+ * Course Project
+ */
+
 package model;
 
 import model.question.AbstractQuestionAnswer;
@@ -9,6 +14,11 @@ import java.io.Serializable;
  * The TriviaDoor class represents a door in a game, which may be locked or
  * permanently locked based on a question. Players need to answer the question
  * correctly to unlock the door.
+ *
+ * @author Jaskaran Toor
+ * @author Michael Castro
+ * @author Tu Phan
+ * @version 12/15/2023
  */
 public class TriviaDoor implements Serializable {
 
@@ -90,5 +100,9 @@ public class TriviaDoor implements Serializable {
     public String getAnswer() {
         return myQuestion.getCorrectAnswer();
     }
-
+    public void setMyDoorLockForever(final boolean theLockForever) {
+        myDoorLockForever = theLockForever;
+    }
 }
+
+

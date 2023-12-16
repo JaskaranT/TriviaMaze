@@ -1,3 +1,8 @@
+/*
+ * TCSS 360 Autumn 2023
+ * Course Project
+ */
+
 package model.question;
 
 import java.io.Serial;
@@ -7,6 +12,11 @@ import java.io.Serializable;
  * The AbstractQuestionAnswer class is an abstract base class for representing
  * questions and answers. It implements the Serializable interface to allow
  * objects of its subclasses to be serialized.
+ *
+ * @author Jaskaran Toor
+ * @author Michael Castro
+ * @author Tu Phan
+ * @version 12/15/2023
  */
 public abstract class AbstractQuestionAnswer implements Serializable {
     @Serial

@@ -1,9 +1,22 @@
+/*
+ * TCSS 360 Autumn 2023
+ * Course Project
+ */
+
 package model;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Locale;
-
+/**
+ * The TriviaRoom class represents a room in a trivia-based game with
+ * doors in four directions.
+ *
+ * @author Jaskaran Toor
+ * @author Michael Castro
+ * @author Tu Phan
+ * @version 12/15/2023
+ */
 public class TriviaRoom implements Serializable {
 
     @Serial

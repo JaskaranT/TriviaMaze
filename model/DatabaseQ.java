@@ -1,3 +1,8 @@
+/*
+ * TCSS 360 Autumn 2023
+ * Course Project
+ */
+
 package model;
 
 import model.question.AbstractQuestionAnswer;
@@ -18,6 +23,11 @@ import java.util.Random;
 /**
  * The DatabaseQ class provides methods to retrieve random questions
  * from an SQLite database.
+ *
+ * @author Jaskaran Toor
+ * @author Michael Castro
+ * @author Tu Phan
+ * @version 12/15/2023
  */
 public class DatabaseQ implements Serializable {
 
