@@ -2,12 +2,34 @@ package view;
 
 import model.TriviaMaze;
 
+/**
+ * @author Michael Castro
+ * @author Jaskaran Toor
+ * @author Tu Phan
+ * @version 12/12/2023
+ *
+ * This is the display class that displays the
+ * game on the console.
+ */
+
 public class Display {
+
+    /**
+     * Trivia maze object to generate maze.
+     */
     private final TriviaMaze myMaze;
+
+    /**
+     * Constructor
+     * @param theMaze
+     */
     public Display(TriviaMaze theMaze) {
         myMaze = theMaze;
     }
 
+    /**
+     * This method prints out the maze using the toString method.
+     */
     public void displayMaze() {
         System.out.println("\t\t\t  MAZE");
         System.out.print("\t\t________________");
@@ -16,10 +38,17 @@ public class Display {
         System.out.println("/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\");
     }
 
+    /**
+     * This method prints out the room showing the players
+     * surroundings.
+     */
     public void displayRoom () {
         System.out.print(myMaze.getRoomDisplay());
     }
 
+    /**
+     * Home screen prompt for user.
+     */
     public void DisplayGameType() {
         System.out.println("""
 
@@ -28,6 +57,9 @@ public class Display {
 
     }
 
+    /**
+     * Title of game in ASCII art.
+     */
     public void displayTitle() {
         System.out.println("""
 
@@ -46,6 +78,10 @@ public class Display {
             ─────██████─────██████──██████████─██████████─────██████─────██████████─██████──██████────██████──────────██████─██████──██████─██████████████████─██████████████─
             ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────""");
     }
+
+    /**
+     * Prints out game info and instructions.
+     */
     public void StartIntro() {
         System.out.println("WELCOME TO TRIVIA MAZE");
         GameInfo();
@@ -61,6 +97,9 @@ public class Display {
         System.out.println("If you lock yourself out and there's no where to go then its game over.");
     }
 
+    /**
+     * Prints the instructions and controls.
+     */
     public void displayInstruction() {
         System.out.println("Instructions: ");
         System.out.println("To move to a different room, you can type:");
@@ -85,13 +124,28 @@ public class Display {
         System.out.println("True or False - You must type either True or False");
         System.out.println();
     }
+
+    /**
+     * Displays the current question to user
+     * @param theQuestion
+     */
     public void displayQuestion(final String theQuestion) {
         System.out.println(theQuestion);
     }
 
+    /**
+     * Method to display answer if user entered incorrect
+     * answer.
+     * @param theAnswer
+     */
+
     public void displayAnswer(final String theAnswer) {
         System.out.println("The correct answer was " + theAnswer);
     }
+
+    /**
+     * Ascii art for when player has won the game.
+     */
 
     public void displayPlayerWon() {
         System.out.println("CONGRATULATIONS! YOU WON!");
@@ -104,6 +158,10 @@ public class Display {
                 "░░░██║░░░╚█████╔╝╚██████╔╝  ░░╚██╔╝░╚██╔╝░╚█████╔╝██║░╚███║\n"+
                 "░░░╚═╝░░░░╚════╝░░╚═════╝░  ░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚══╝");
     }
+
+    /**
+     * Ascii art for when player has lost the game.
+     */
 
     public void displayPlayerLost() {
         System.out.println("Sorry, there are no more doors to unlock. You Have Lost...");
@@ -126,30 +184,53 @@ public class Display {
                 "─────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
     }
 
+    /**
+     * When player enters correct answer.
+     */
     public void displayCorrect() {
         System.out.println("CORRECT! You may proceed");
     }
 
+    /**
+     * When player enters incorrect answer.
+     */
     public void displayIncorrect() {
         System.out.println("INCORRECT! Door is now locked forever");
     }
 
+    /**
+     * Displays user options while in game.
+     */
     public void displayDirection() {
         System.out.println("Options: |MENU| - |HELP| ");
         System.out.println("Type an option or direction");
         System.out.println();
     }
 
+    /**
+     * When user enters invalid input.
+     */
     public void displayWrongIn() {
         System.out.println("Wrong Input Try Again.");
     }
+
+    /**
+     * For when player has hit a wall or forever locked door.
+     */
     public void displayWrongDirection() {
         System.out.println("Can't go that Direction. Try again.");
     }
 
+    /**
+     * When a player goes back to a room that is already visited.
+     */
     public void displayVisited() {
         System.out.println("You already visited this room welcome back");
     }
+
+    /**
+     * File menu when player wants to save, or exit the game.
+     */
 
     public void displayFileMenu() {
         System.out.println("Type one of the following:");
@@ -157,6 +238,10 @@ public class Display {
         System.out.println("\"Load\" to load game");
         System.out.println("\"Exit\" to exit game");
     }
+
+    /**
+     * Displays the help menu.
+     */
     public void displayHelpMenu() {
         System.out.println("Type one of the following:");
         System.out.println("\"About\" for information about the game");
