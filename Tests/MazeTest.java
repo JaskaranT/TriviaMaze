@@ -7,6 +7,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Jaskaran Toor
+ * @author Tu Phan
+ * @author Michael Castro
+ *
+ * Test class for maze.
+ */
+
 class MazeTest {
 
     private TriviaMaze triviaMaze;
